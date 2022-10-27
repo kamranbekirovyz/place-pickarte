@@ -1,25 +1,19 @@
 import 'dart:io';
 
 import 'package:artistic_place_picker/src/artistic_place_picker_bloc.dart';
+import 'package:artistic_place_picker/src/artistic_place_picker_config.dart';
+import 'package:artistic_place_picker/src/artistic_place_picker_map.dart';
 import 'package:artistic_place_picker/src/enums/pin_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const _initialDefaultLocationLatLng = LatLng(
-  48.85680899999999,
-  2.2867009999999954,
-);
-const _initialCameraZoom = 16.5;
-
 class ArtisticPlacePickerView extends StatefulWidget {
-  final LatLng initialLocation;
-  final double initialZoom;
+  final ArtisticPlacePickerConfig config;
 
   const ArtisticPlacePickerView({
     Key? key,
-    this.initialLocation = _initialDefaultLocationLatLng,
-    this.initialZoom = _initialCameraZoom,
+    required this.config,
   }) : super(key: key);
 
   @override
@@ -27,19 +21,13 @@ class ArtisticPlacePickerView extends StatefulWidget {
 }
 
 class _ArtisticPlacePickerViewState extends State<ArtisticPlacePickerView> {
-  late final CameraPosition _initialCameraPosition;
   late final ArtisticPlacePickerBloc _bloc;
 
   @override
   void initState() {
     super.initState();
 
-    _bloc = ArtisticPlacePickerBloc();
-
-    _initialCameraPosition = CameraPosition(
-      target: widget.initialLocation,
-      zoom: widget.initialZoom,
-    );
+    _bloc = ArtisticPlacePickerBloc(config: widget.config);
   }
 
   @override
@@ -54,8 +42,7 @@ class _ArtisticPlacePickerViewState extends State<ArtisticPlacePickerView> {
     return Scaffold(
       body: Stack(
         children: [
-          _buildMap(),
-          _buildPin(),
+          ArtisticPlacePickerMap(bloc: _bloc),
           Align(
             alignment: Alignment.bottomCenter,
             child: _buildBottom(),
@@ -67,7 +54,7 @@ class _ArtisticPlacePickerViewState extends State<ArtisticPlacePickerView> {
 
   StreamBuilder<CameraPosition?> _buildBottom() {
     return StreamBuilder<CameraPosition?>(
-      stream: _bloc.cameraPosition$,
+      stream: _bloc.cameraPositionStream,
       builder: (context, snapshot) {
         final ready = snapshot.hasData;
 
@@ -76,7 +63,7 @@ class _ArtisticPlacePickerViewState extends State<ArtisticPlacePickerView> {
         final cameraPosition = snapshot.data!;
 
         return Container(
-          margin: const EdgeInsets.all(16.0).copyWith(),
+          // margin: const EdgeInsets.all(16.0).copyWith(),
           padding: const EdgeInsets.all(16.0),
           color: Colors.white,
           width: double.maxFinite,
@@ -90,7 +77,7 @@ class _ArtisticPlacePickerViewState extends State<ArtisticPlacePickerView> {
                   Expanded(
                     child: StreamBuilder<Object>(
                       initialData: PinState.idle,
-                      stream: _bloc.pinState$,
+                      stream: _bloc.pinStateStream,
                       builder: (context, snapshot) {
                         final pinState = snapshot.data;
                         final opacity = pinState != PinState.ready ? 1.0 : 0.8;
@@ -122,55 +109,17 @@ class _ArtisticPlacePickerViewState extends State<ArtisticPlacePickerView> {
                 child: Container(
                   width: double.maxFinite,
                   alignment: Alignment.center,
-                  child: Text(
+                  child: const Text(
                     'Select address',
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
                 ),
               ),
-              // const SizedBox(height: 24.0),
-              // SizedBox(height: Platform.isIOS ? 16.0 : 0.0),
+              const SizedBox(height: 24.0),
+              SizedBox(height: Platform.isIOS ? 16.0 : 0.0),
             ],
           ),
         );
-      },
-    );
-  }
-
-  Widget _buildPin() {
-    // TOOD: add custom pin builder based on PinState
-    return Center(
-      child: StreamBuilder<PinState>(
-        initialData: PinState.idle,
-        stream: _bloc.pinState$,
-        builder: (context, snapshot) {
-          final pinState = snapshot.data!;
-          final iconColor = pinState == PinState.busy ? Colors.blueGrey.shade900 : const Color(0xff4285F4);
-          final iconData = pinState == PinState.busy ? Icons.not_listed_location_rounded : Icons.location_on_rounded;
-
-          return Icon(
-            iconData,
-            size: 72.0,
-            color: iconColor,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildMap() {
-    return GoogleMap(
-      myLocationButtonEnabled: false,
-      myLocationEnabled: true,
-      initialCameraPosition: _initialCameraPosition,
-      onCameraIdle: () {
-        _bloc.updatePinState(PinState.idle);
-      },
-      onCameraMove: (CameraPosition position) {
-        _bloc.updateCameraPosition(position);
-      },
-      onCameraMoveStarted: () {
-        _bloc.updatePinState(PinState.busy);
       },
     );
   }

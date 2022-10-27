@@ -29,8 +29,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late final ArtisticPlacePickerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = ArtisticPlacePickerController(
+      ArtisticPlacePickerConfig(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const ArtisticPlacePickerView();
+    return _controller.mapWidget;
   }
 }
