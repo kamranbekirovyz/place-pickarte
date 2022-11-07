@@ -1,5 +1,8 @@
+import 'package:artistic_place_picker/src/enums/my_location_result.dart';
+import 'package:artistic_place_picker/src/helpers/extensions.dart';
 import 'package:artistic_place_picker/src/models/artistic_place_picker_config.dart';
 import 'package:artistic_place_picker/src/enums/pin_state.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:rxdart/subjects.dart';
@@ -62,6 +65,11 @@ class ArtisticPlacePickerBloc {
   Future<void> _searchByLocation(Location location) async {
     _updateCurrentLocation(null);
     final result = await _googleMapsGeocoding.searchByLocation(location);
-    _updateCurrentLocation(result.results.first);
+
+    if (result.errorMessage != null && result.errorMessage!.isNotEmpty) {
+      '📛 ${result.errorMessage!}'.logiosa();
+    } else {
+      _updateCurrentLocation(result.results.first);
+    }
   }
 }
