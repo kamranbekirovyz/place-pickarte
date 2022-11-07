@@ -24,6 +24,9 @@ class _ArtisticPlacePickerMapState extends State<ArtisticPlacePickerMap> {
         GoogleMap(
           myLocationButtonEnabled: false,
           myLocationEnabled: true,
+          onMapCreated: (GoogleMapController mapController) {
+            widget.controller.setGoogleMapController(mapController);
+          },
           initialCameraPosition: widget.controller.bloc.config.initialCameraPosition,
           onCameraIdle: () {
             'camera is now idle'.logiosa();
