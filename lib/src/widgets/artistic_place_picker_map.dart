@@ -1,15 +1,14 @@
-import 'package:artistic_place_picker/src/artistic_place_picker_bloc.dart';
-import 'package:artistic_place_picker/src/artistic_place_picker_pin.dart';
-import 'package:artistic_place_picker/src/enums/pin_state.dart';
+import 'package:artistic_place_picker/artistic_place_picker.dart';
 import 'package:artistic_place_picker/src/helpers/extensions.dart';
+import 'package:artistic_place_picker/src/widgets/artistic_place_picker_pin.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ArtisticPlacePickerMap extends StatefulWidget {
-  final ArtisticPlacePickerBloc bloc;
+  final ArtisticPlacePickerController controller;
 
   const ArtisticPlacePickerMap({
-    required this.bloc,
+    required this.controller,
     super.key,
   });
 
@@ -25,26 +24,26 @@ class _ArtisticPlacePickerMapState extends State<ArtisticPlacePickerMap> {
         GoogleMap(
           myLocationButtonEnabled: false,
           myLocationEnabled: true,
-          initialCameraPosition: widget.bloc.config.initialCameraPosition,
+          initialCameraPosition: widget.controller.bloc.config.initialCameraPosition,
           onCameraIdle: () {
             'camera is now idle'.logiosa();
 
-            widget.bloc.updatePinState(PinState.idle);
+            widget.controller.bloc.updatePinState(PinState.idle);
           },
           onCameraMove: (CameraPosition position) {
             'camera is moving: $position'.logiosa();
 
-            widget.bloc.updateCameraPosition(position);
+            widget.controller.bloc.updateCameraPosition(position);
           },
           onCameraMoveStarted: () {
             'camera started moving'.logiosa();
 
-            widget.bloc.updatePinState(PinState.busy);
+            widget.controller.bloc.updatePinState(PinState.busy);
           },
         ),
         ArtisticPlacePickerPin(
-          pinBuilder: widget.bloc.config.pinBuilder,
-          pinStateStream: widget.bloc.pinStateStream,
+          pinBuilder: widget.controller.bloc.config.pinBuilder,
+          pinStateStream: widget.controller.bloc.pinStateStream,
         ),
       ],
     );

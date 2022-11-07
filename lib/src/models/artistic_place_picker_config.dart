@@ -1,4 +1,4 @@
-import 'package:artistic_place_picker/src/artistic_place_picker_pin.dart';
+import 'package:artistic_place_picker/src/widgets/artistic_place_picker_pin.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const _initialDefaultLocationLatLng = LatLng(
@@ -10,6 +10,8 @@ const _initialCameraZoom = 16.5;
 class ArtisticPlacePickerConfig {
   final PinBuilder? pinBuilder;
   final bool logsEnabled;
+  final String? androidApiKey;
+  final String? iosApiKey;
   late final CameraPosition initialCameraPosition;
 
   ArtisticPlacePickerConfig({
@@ -17,6 +19,8 @@ class ArtisticPlacePickerConfig {
     double initialZoom = _initialCameraZoom,
     this.pinBuilder,
     this.logsEnabled = true,
+    this.androidApiKey,
+    this.iosApiKey,
   }) {
     initialCameraPosition = CameraPosition(
       target: initialLocation,
