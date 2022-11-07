@@ -16,12 +16,15 @@ class ArtisticPlacePickerController {
 
   Stream<CameraPosition?> get cameraPositionStream => _bloc.cameraPositionStream;
   Stream<GeocodingResult?> get currentLocation => _bloc.currentLocation;
-  void Function(String) get searchByAddress => _bloc.searchByAddress;
+
+  void updateSearchQuery(String value) => _bloc.updateSearchQuery(value);
+  void clearSearchQuery() => _bloc.updateSearchQuery('');
 
   void close() {
     _bloc.close();
   }
 
+  // TODO: move heavy logic to another layer (service)
   Future<MyLocationResult> goToMyLocation({
     bool animate = true,
     LocationAccuracy accuracy = LocationAccuracy.best,

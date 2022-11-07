@@ -63,7 +63,7 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
         child: FloatingActionButton(
           child: const Icon(Icons.location_searching_outlined),
           onPressed: () {
-            _controller.goToMyLocation();
+            _controller.updateSearchQuery('44 xaqan');
           },
         ),
       ),

@@ -1,13 +1,19 @@
+import 'dart:async';
+
 import 'package:artistic_place_picker/src/helpers/extensions.dart';
 import 'package:artistic_place_picker/src/models/artistic_place_picker_config.dart';
 import 'package:artistic_place_picker/src/enums/pin_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
-import 'package:rxdart/subjects.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ArtisticPlacePickerBloc {
   late final ArtisticPlacePickerConfig config;
   late final GoogleMapsGeocoding _googleMapsGeocoding;
+  late final GoogleMapsPlaces _googleMapsPlaces;
+  late final StreamSubscription _pinStateSubscription;
+  late final StreamSubscription _searchQuerySubscription;
 
   ArtisticPlacePickerBloc({
     required this.config,
@@ -15,8 +21,10 @@ class ArtisticPlacePickerBloc {
     _googleMapsGeocoding = GoogleMapsGeocoding(
       apiKey: config.iosApiKey,
     );
-
-    _pinState.stream.listen((PinState event) {
+    _googleMapsPlaces = GoogleMapsPlaces(
+      apiKey: config.iosApiKey,
+    );
+    _pinStateSubscription = _pinState.stream.listen((PinState event) {
       /// CameraPosition subject is nullable: null check before using its value.
       if (cameraPosition == null) return;
 
@@ -29,6 +37,15 @@ class ArtisticPlacePickerBloc {
           ),
         );
       }
+    });
+
+    _searchQuerySubscription = _searchQuery
+        .distinct()
+        .debounceTime(
+          const Duration(milliseconds: 500),
+        )
+        .listen((String event) {
+      _searchAutocomplete(event);
     });
   }
 
@@ -54,10 +71,14 @@ class ArtisticPlacePickerBloc {
     _searchQuery.close();
     _pinState.close();
     _cameraPosition.close();
+    _pinStateSubscription.cancel();
+    _searchQuerySubscription.cancel();
   }
 
-  Future<void> searchByAddress(String address) async {
-    await _googleMapsGeocoding.searchByAddress(address);
+  Future<void> _searchAutocomplete(String query) async {
+    final result = await _googleMapsPlaces.autocomplete(query);
+
+    result.predictions.map((e) => e.description).logiosa();
   }
 
   Future<void> _searchByLocation(Location location) async {
