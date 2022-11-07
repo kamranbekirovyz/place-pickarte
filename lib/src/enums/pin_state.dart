@@ -1,5 +1,4 @@
 enum PinState {
   idle,
-  busy,
-  ready,
+  dragging,
 }

@@ -1,7 +1,6 @@
 import 'package:artistic_place_picker/artistic_place_picker.dart';
 import 'package:artistic_place_picker/src/enums/my_location_result.dart';
 import 'package:artistic_place_picker/src/logic/artistic_place_picker_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -81,7 +80,6 @@ class ArtisticPlacePickerController {
     return MyLocationResult.success;
   }
 
-  @protected
   void setGoogleMapController(GoogleMapController mapController) {
     _googleMapController = mapController;
   }

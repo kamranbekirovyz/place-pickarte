@@ -18,7 +18,6 @@ class ArtisticPlacePickerPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TOOD: add custom pin builder based on PinState
     return Center(
       /// Ignoring pointer, helpful when user wants to zoom the map by double
       /// tap on screen: gets zoomed even when double tapped on the pin.
@@ -34,14 +33,15 @@ class ArtisticPlacePickerPin extends StatelessWidget {
             }
 
             // TODO: ability to customize default pin's colors, size, animation, maybe?
-            final iconColor = pinState == PinState.busy ? Colors.blueGrey.shade900 : const Color(0xff4285F4);
-            final iconData = pinState == PinState.busy ? Icons.not_listed_location_rounded : Icons.location_on_rounded;
+            final pinIsBeingDragged = pinState == PinState.dragging;
+            final iconColor = pinIsBeingDragged ? Colors.blueGrey.shade900 : const Color(0xff4285F4);
+            final iconData = pinIsBeingDragged ? Icons.not_listed_location_rounded : Icons.location_on_rounded;
 
             return AnimatedContainer(
               duration: kThemeAnimationDuration,
               transform: Matrix4.translationValues(
                 0.0,
-                pinState == PinState.busy ? -8.0 : 0.0,
+                pinIsBeingDragged ? -8.0 : 0.0,
                 0.0,
               ),
               child: Icon(

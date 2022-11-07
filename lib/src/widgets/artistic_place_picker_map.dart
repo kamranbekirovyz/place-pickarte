@@ -41,7 +41,7 @@ class _ArtisticPlacePickerMapState extends State<ArtisticPlacePickerMap> {
           onCameraMoveStarted: () {
             'camera started moving'.logiosa();
 
-            widget.controller.bloc.updatePinState(PinState.busy);
+            widget.controller.bloc.updatePinState(PinState.dragging);
           },
         ),
         ArtisticPlacePickerPin(
