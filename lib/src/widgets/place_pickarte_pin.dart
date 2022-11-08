@@ -1,4 +1,4 @@
-import 'package:artistic_place_picker/artistic_place_picker.dart';
+import 'package:place_pickarte/place_pickarte.dart';
 import 'package:flutter/material.dart';
 
 typedef PinBuilder = Widget Function(
@@ -6,11 +6,11 @@ typedef PinBuilder = Widget Function(
   PinState state,
 );
 
-class ArtisticPlacePickerPin extends StatelessWidget {
+class PlacePickartePin extends StatelessWidget {
   final PinBuilder? pinBuilder;
   final Stream<PinState> pinStateStream;
 
-  const ArtisticPlacePickerPin({
+  const PlacePickartePin({
     super.key,
     this.pinBuilder,
     required this.pinStateStream,

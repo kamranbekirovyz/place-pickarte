@@ -1,17 +1,17 @@
-import 'package:artistic_place_picker/artistic_place_picker.dart';
-import 'package:artistic_place_picker/src/enums/my_location_result.dart';
-import 'package:artistic_place_picker/src/logic/artistic_place_picker_bloc.dart';
+import 'package:place_pickarte/place_pickarte.dart';
+import 'package:place_pickarte/src/enums/my_location_result.dart';
+import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ArtisticPlacePickerController {
-  late final ArtisticPlacePickerBloc _bloc;
+class PlacePickarteController {
+  late final PlacePickarteBloc _bloc;
   late final GoogleMapController? _googleMapController;
 
-  ArtisticPlacePickerBloc get bloc => _bloc;
+  PlacePickarteBloc get bloc => _bloc;
 
-  ArtisticPlacePickerController(ArtisticPlacePickerConfig config) {
-    _bloc = ArtisticPlacePickerBloc(config: config);
+  PlacePickarteController(PlacePickarteConfig config) {
+    _bloc = PlacePickarteBloc(config: config);
   }
 
   Stream<CameraPosition?> get cameraPositionStream => _bloc.cameraPositionStream;

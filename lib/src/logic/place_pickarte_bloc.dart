@@ -1,21 +1,21 @@
 import 'dart:async';
 
-import 'package:artistic_place_picker/src/helpers/extensions.dart';
-import 'package:artistic_place_picker/src/models/artistic_place_picker_config.dart';
-import 'package:artistic_place_picker/src/enums/pin_state.dart';
+import 'package:place_pickarte/src/helpers/extensions.dart';
+import 'package:place_pickarte/src/models/place_pickarte_config.dart';
+import 'package:place_pickarte/src/enums/pin_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ArtisticPlacePickerBloc {
-  late final ArtisticPlacePickerConfig config;
+class PlacePickarteBloc {
+  late final PlacePickarteConfig config;
   late final GoogleMapsGeocoding _googleMapsGeocoding;
   late final GoogleMapsPlaces _googleMapsPlaces;
   late final StreamSubscription _pinStateSubscription;
   late final StreamSubscription _searchQuerySubscription;
 
-  ArtisticPlacePickerBloc({
+  PlacePickarteBloc({
     required this.config,
   }) {
     _googleMapsGeocoding = GoogleMapsGeocoding(

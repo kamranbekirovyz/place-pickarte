@@ -1,4 +1,4 @@
-import 'package:artistic_place_picker/artistic_place_picker.dart';
+import 'package:place_pickarte/place_pickarte.dart';
 import 'package:example/api_key.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +10,14 @@ class CustomizedPlacePicker extends StatefulWidget {
 }
 
 class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
-  late final ArtisticPlacePickerController _controller;
+  late final PlacePickarteController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = ArtisticPlacePickerController(
-      ArtisticPlacePickerConfig(
+    _controller = PlacePickarteController(
+      PlacePickarteConfig(
         iosApiKey: iosApiKey,
       ),
     );
@@ -34,7 +34,7 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
     return Scaffold(
       body: Stack(
         children: [
-          ArtisticPlacePickerMap(
+          PlacePickarteMap(
             controller: _controller,
           ),
           Align(

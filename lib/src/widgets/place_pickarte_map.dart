@@ -1,22 +1,22 @@
-import 'package:artistic_place_picker/artistic_place_picker.dart';
-import 'package:artistic_place_picker/src/helpers/extensions.dart';
-import 'package:artistic_place_picker/src/widgets/artistic_place_picker_pin.dart';
+import 'package:place_pickarte/place_pickarte.dart';
+import 'package:place_pickarte/src/helpers/extensions.dart';
+import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ArtisticPlacePickerMap extends StatefulWidget {
-  final ArtisticPlacePickerController controller;
+class PlacePickarteMap extends StatefulWidget {
+  final PlacePickarteController controller;
 
-  const ArtisticPlacePickerMap({
+  const PlacePickarteMap({
     required this.controller,
     super.key,
   });
 
   @override
-  State<ArtisticPlacePickerMap> createState() => _ArtisticPlacePickerMapState();
+  State<PlacePickarteMap> createState() => _PlacePickarteMapState();
 }
 
-class _ArtisticPlacePickerMapState extends State<ArtisticPlacePickerMap> {
+class _PlacePickarteMapState extends State<PlacePickarteMap> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -44,7 +44,7 @@ class _ArtisticPlacePickerMapState extends State<ArtisticPlacePickerMap> {
             widget.controller.bloc.updatePinState(PinState.dragging);
           },
         ),
-        ArtisticPlacePickerPin(
+        PlacePickartePin(
           pinBuilder: widget.controller.bloc.config.pinBuilder,
           pinStateStream: widget.controller.bloc.pinStateStream,
         ),
