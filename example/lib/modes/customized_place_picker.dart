@@ -1,3 +1,4 @@
+import 'package:example/modes/place_search_delegate.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:example/api_key.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
     _controller = PlacePickarteController(
       PlacePickarteConfig(
         iosApiKey: iosApiKey,
+        androidApiKey: androidApiKey,
       ),
     );
   }
@@ -32,6 +34,20 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: PlaceSearchDelegate(_controller),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
+          const SizedBox(width: 8.0),
+        ],
+      ),
       body: Stack(
         children: [
           PlacePickarteMap(
@@ -63,7 +79,7 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
         child: FloatingActionButton(
           child: const Icon(Icons.location_searching_outlined),
           onPressed: () {
-            _controller.updateSearchQuery('44 xaqan');
+            _controller.goToMyLocation();
           },
         ),
       ),

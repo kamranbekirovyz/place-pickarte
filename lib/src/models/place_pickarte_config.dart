@@ -9,7 +9,7 @@ const _initialCameraZoom = 16.5;
 
 class PlacePickarteConfig {
   final PinBuilder? pinBuilder;
-  final bool logsEnabled;
+  // final bool logsEnabled;
   final String? androidApiKey;
   final String? iosApiKey;
   late final CameraPosition initialCameraPosition;
@@ -18,7 +18,7 @@ class PlacePickarteConfig {
     LatLng initialLocation = _initialDefaultLocationLatLng,
     double initialZoom = _initialCameraZoom,
     this.pinBuilder,
-    this.logsEnabled = true,
+    // this.logsEnabled = true,
     this.androidApiKey,
     this.iosApiKey,
   }) {
