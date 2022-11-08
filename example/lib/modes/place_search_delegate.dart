@@ -30,16 +30,41 @@ class PlaceSearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
-    return StreamBuilder(
+  Widget buildSuggestions(BuildContext context) {
+    controller.updateSearchQuery(query);
+
+    return StreamBuilder<List<Prediction>?>(
+      stream: controller.predictionsStream,
       builder: (_, snapshot) {
-        return const Placeholder();
+        final ready = snapshot.hasData;
+
+        if (!ready) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        final predictions = snapshot.data!;
+
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          itemCount: predictions.length,
+          itemBuilder: (_, int index) {
+            final prediction = predictions.elementAt(index);
+
+            return ListTile(
+              title: Text(prediction.description ?? 'asd'),
+              trailing: const Icon(Icons.chevron_right_outlined),
+            );
+          },
+          separatorBuilder: (_, __) => const Divider(),
+        );
       },
     );
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) {
-    return Container();
+  Widget buildResults(BuildContext context) {
+    return FlutterLogo();
   }
 }

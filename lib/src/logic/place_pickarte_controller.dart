@@ -1,3 +1,4 @@
+import 'package:google_maps_webservice/places.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/enums/my_location_result.dart';
 import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';
@@ -15,7 +16,8 @@ class PlacePickarteController {
   }
 
   Stream<CameraPosition?> get cameraPositionStream => _bloc.cameraPositionStream;
-  Stream<GeocodingResult?> get currentLocation => _bloc.currentLocation;
+  Stream<GeocodingResult?> get currentLocationStream => _bloc.currentLocationStream;
+  Stream<List<Prediction>?> get predictionsStream => _bloc.predictionsStream;
 
   void updateSearchQuery(String value) => _bloc.updateSearchQuery(value);
   void clearSearchQuery() => _bloc.updateSearchQuery('');

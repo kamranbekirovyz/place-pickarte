@@ -53,20 +53,25 @@ class PlacePickarteBloc {
   final _cameraPosition = BehaviorSubject<CameraPosition?>();
   final _searchQuery = BehaviorSubject<String>.seeded('');
   final _currentLocation = BehaviorSubject<GeocodingResult?>();
+  final _predictions = BehaviorSubject<List<Prediction>?>();
 
   Stream<PinState> get pinStateStream => _pinState.stream;
   Stream<CameraPosition?> get cameraPositionStream => _cameraPosition.stream;
   Stream<String> get searchQueryStream => _searchQuery.stream;
-  Stream<GeocodingResult?> get currentLocation => _currentLocation.stream;
+  Stream<GeocodingResult?> get currentLocationStream => _currentLocation.stream;
+  Stream<List<Prediction>?> get predictionsStream => _predictions.stream;
 
   CameraPosition? get cameraPosition => _cameraPosition.valueOrNull;
+  List<Prediction>? get predictions => _predictions.valueOrNull;
 
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
   void updateSearchQuery(String event) => _searchQuery.add(event);
   void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
+  void _updatePredictions(List<Prediction>? event) => _predictions.add(event);
 
   void close() {
+    _predictions.close();
     _currentLocation.close();
     _searchQuery.close();
     _pinState.close();
@@ -76,9 +81,26 @@ class PlacePickarteBloc {
   }
 
   Future<void> _searchAutocomplete(String query) async {
-    final result = await _googleMapsPlaces.autocomplete(query);
+    _updatePredictions(null);
+    final result = await _googleMapsPlaces.autocomplete(
+      query,
+      sessionToken: config.placesAutocompleteConfig?.sessionToken,
+      offset: config.placesAutocompleteConfig?.offset,
+      origin: config.placesAutocompleteConfig?.origin,
+      location: config.placesAutocompleteConfig?.location,
+      radius: config.placesAutocompleteConfig?.radius,
+      language: config.placesAutocompleteConfig?.language,
+      types: config.placesAutocompleteConfig?.types ?? [],
+      components: config.placesAutocompleteConfig?.components ?? [],
+      strictbounds: config.placesAutocompleteConfig?.strictbounds ?? false,
+      region: config.placesAutocompleteConfig?.region,
+    );
 
-    result.predictions.map((e) => e.description).logiosa();
+    if (result.errorMessage != null && result.errorMessage!.isNotEmpty) {
+      '📛 ${result.errorMessage!}'.logiosa();
+    } else {
+      _updatePredictions(result.predictions);
+    }
   }
 
   Future<void> _searchByLocation(Location location) async {

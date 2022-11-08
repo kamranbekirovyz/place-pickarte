@@ -21,6 +21,9 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
       PlacePickarteConfig(
         iosApiKey: iosApiKey,
         androidApiKey: androidApiKey,
+        placesAutocompleteConfig: const PlacesAutocompleteConfig(
+          region: 'az',
+        ),
       ),
     );
   }
@@ -56,7 +59,7 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
           Align(
             alignment: Alignment.bottomCenter,
             child: StreamBuilder<GeocodingResult?>(
-              stream: _controller.currentLocation,
+              stream: _controller.currentLocationStream,
               builder: (context, snapshot) {
                 return SafeArea(
                   child: Card(
