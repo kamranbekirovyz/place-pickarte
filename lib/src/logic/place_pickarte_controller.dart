@@ -1,4 +1,3 @@
-import 'package:google_maps_webservice/places.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/enums/my_location_result.dart';
 import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';

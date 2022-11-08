@@ -65,6 +65,7 @@ class PlaceSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FlutterLogo();
+    // TODO: implement buildResults
+    return const FlutterLogo();
   }
 }
