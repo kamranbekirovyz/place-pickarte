@@ -53,6 +53,10 @@ class PlaceSearchDelegate extends SearchDelegate {
             final prediction = predictions.elementAt(index);
 
             return ListTile(
+              onTap: () {
+                close(context, null);
+                controller.selectPrediction(prediction);
+              },
               title: Text(prediction.description ?? 'asd'),
               trailing: const Icon(Icons.chevron_right_outlined),
             );

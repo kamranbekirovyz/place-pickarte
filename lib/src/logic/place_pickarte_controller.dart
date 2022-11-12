@@ -87,4 +87,30 @@ class PlacePickarteController {
   void setGoogleMapController(GoogleMapController mapController) {
     _googleMapController = mapController;
   }
+
+  Future<void> selectPrediction(
+    Prediction prediction, {
+    bool animate = true,
+    LocationAccuracy accuracy = LocationAccuracy.best,
+    double? zoom,
+    double tilt = 0.0,
+    double bearing = 0.0,
+  }) async {
+    final placeDetails = await _bloc.getPlaceDetails(prediction.placeId!);
+    zoom ??= _bloc.config.initialCameraPosition.zoom;
+
+    return _googleMapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            placeDetails.geometry!.location.lat,
+            placeDetails.geometry!.location.lng,
+          ),
+          bearing: bearing,
+          tilt: tilt,
+          zoom: zoom,
+        ),
+      ),
+    );
+  }
 }

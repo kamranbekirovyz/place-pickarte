@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:place_pickarte/src/helpers/extensions.dart';
-import 'package:place_pickarte/src/models/place_pickarte_config.dart';
-import 'package:place_pickarte/src/enums/pin_state.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:place_pickarte/place_pickarte.dart';
 
 class PlacePickarteBloc {
   late final PlacePickarteConfig config;
@@ -25,7 +23,7 @@ class PlacePickarteBloc {
       apiKey: config.iosApiKey,
     );
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
-      /// CameraPosition subject is nullable: null check before using its value.
+      /// null check before using value (CameraPosition subject is nullable).
       if (cameraPosition == null) return;
 
       /// Search only when the user released the control of the map.
@@ -112,5 +110,11 @@ class PlacePickarteBloc {
     } else {
       _updateCurrentLocation(result.results.first);
     }
+  }
+
+  Future<PlaceDetails> getPlaceDetails(String placeId) async {
+    // use PlacesDetailsResponse with its error handling
+    final detailsResponse = await _googleMapsPlaces.getDetailsByPlaceId(placeId);
+    return detailsResponse.result;
   }
 }
