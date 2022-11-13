@@ -20,12 +20,8 @@ class PlaceSearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-      icon: const Icon(
-        Icons.arrow_back,
-      ),
+      onPressed: Navigator.of(context).pop,
+      icon: const Icon(Icons.arrow_back),
     );
   }
 

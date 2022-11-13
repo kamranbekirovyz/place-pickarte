@@ -18,11 +18,14 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
     super.initState();
 
     _controller = PlacePickarteController(
-      PlacePickarteConfig(
+      config: PlacePickarteConfig(
         iosApiKey: iosApiKey,
         androidApiKey: androidApiKey,
-        placesAutocompleteConfig: const PlacesAutocompleteConfig(
+        placesAutocompleteConfig: PlacesAutocompleteConfig(
           region: 'az',
+          components: [
+            Component(Component.country, 'tr'),
+          ],
         ),
       ),
     );
@@ -37,55 +40,51 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: PlaceSearchDelegate(_controller),
-              );
-            },
-            icon: const Icon(Icons.search),
-          ),
-          const SizedBox(width: 8.0),
-        ],
+      appBar: _buildAppBar(),
+      body: PlacePickarteMap(
+        controller: _controller,
       ),
-      body: Stack(
-        children: [
-          PlacePickarteMap(
-            controller: _controller,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: StreamBuilder<GeocodingResult?>(
-              stream: _controller.currentLocationStream,
-              builder: (context, snapshot) {
-                return SafeArea(
-                  child: Card(
-                    child: ExpansionTile(
-                      title: !snapshot.hasData
-                          ? const LinearProgressIndicator()
-                          : Text(
-                              '${snapshot.data?.formattedAddress.toString()}',
-                            ),
+      bottomNavigationBar: _buildLocationDetails(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.location_searching_outlined),
+        onPressed: () => _controller.goToMyLocation(animate: false),
+      ),
+    );
+  }
+
+  Widget _buildLocationDetails() {
+    return StreamBuilder<GeocodingResult?>(
+      stream: _controller.currentLocationStream,
+      builder: (context, snapshot) {
+        return SafeArea(
+          child: Card(
+            child: ListTile(
+              title: !snapshot.hasData
+                  ? const LinearProgressIndicator()
+                  : Text(
+                      '${snapshot.data?.formattedAddress.toString()}',
                     ),
-                  ),
-                );
-              },
             ),
           ),
-        ],
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 64.0),
-        child: FloatingActionButton(
-          child: const Icon(Icons.location_searching_outlined),
+        );
+      },
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      actions: [
+        IconButton(
           onPressed: () {
-            _controller.goToMyLocation();
+            showSearch(
+              context: context,
+              delegate: PlaceSearchDelegate(_controller),
+            );
           },
+          icon: const Icon(Icons.search, size: 28.0),
         ),
-      ),
+        const SizedBox(width: 8.0),
+      ],
     );
   }
 }

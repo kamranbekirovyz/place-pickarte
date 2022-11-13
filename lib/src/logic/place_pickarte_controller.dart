@@ -10,7 +10,9 @@ class PlacePickarteController {
 
   PlacePickarteBloc get bloc => _bloc;
 
-  PlacePickarteController(PlacePickarteConfig config) {
+  PlacePickarteController({
+    required PlacePickarteConfig config,
+  }) {
     _bloc = PlacePickarteBloc(config: config);
   }
 
