@@ -1,5 +1,4 @@
 import 'package:place_pickarte/src/models/places_autocomplete_config.dart';
-import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const _initialDefaultLocationLatLng = LatLng(
@@ -9,7 +8,6 @@ const _initialDefaultLocationLatLng = LatLng(
 const _initialCameraZoom = 16.5;
 
 class PlacePickarteConfig {
-  final PinBuilder? pinBuilder;
   final String? androidApiKey;
   final String? iosApiKey;
   final PlacesAutocompleteConfig? placesAutocompleteConfig;
@@ -18,7 +16,6 @@ class PlacePickarteConfig {
   PlacePickarteConfig({
     LatLng initialLocation = _initialDefaultLocationLatLng,
     double initialZoom = _initialCameraZoom,
-    this.pinBuilder,
     this.androidApiKey,
     this.iosApiKey,
     this.placesAutocompleteConfig,

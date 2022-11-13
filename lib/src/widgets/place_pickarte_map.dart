@@ -6,9 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PlacePickarteMap extends StatefulWidget {
   final PlacePickarteController controller;
+  final PinBuilder? pinBuilder;
 
   const PlacePickarteMap({
     required this.controller,
+    this.pinBuilder,
     super.key,
   });
 
@@ -45,7 +47,7 @@ class _PlacePickarteMapState extends State<PlacePickarteMap> {
           },
         ),
         PlacePickartePin(
-          pinBuilder: widget.controller.bloc.config.pinBuilder,
+          pinBuilder: widget.pinBuilder,
           pinStateStream: widget.controller.bloc.pinStateStream,
         ),
       ],
