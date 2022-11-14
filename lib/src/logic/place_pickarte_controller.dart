@@ -1,5 +1,6 @@
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/enums/my_location_result.dart';
+import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,18 +8,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class PlacePickarteController {
   late final PlacePickarteBloc _bloc;
   late final GoogleMapController? _googleMapController;
+  late final PlacePickarteConfig config;
 
   PlacePickarteBloc get bloc => _bloc;
 
   PlacePickarteController({
     required PlacePickarteConfig config,
   }) {
+    config = config;
     _bloc = PlacePickarteBloc(config: config);
   }
 
   Stream<CameraPosition?> get cameraPositionStream => _bloc.cameraPositionStream;
   Stream<GeocodingResult?> get currentLocationStream => _bloc.currentLocationStream;
   Stream<List<Prediction>?> get predictionsStream => _bloc.predictionsStream;
+  Stream<PinState> get pinStateStream => _bloc.pinStateStream;
 
   void updateSearchQuery(String value) => _bloc.updateSearchQuery(value);
   void clearSearchQuery() => _bloc.updateSearchQuery('');
@@ -88,6 +92,11 @@ class PlacePickarteController {
 
   void setGoogleMapController(GoogleMapController mapController) {
     _googleMapController = mapController;
+
+    if (config.googleMapStyle != null) {
+      'setting custom map style..'.logiosa();
+      _googleMapController!.setMapStyle(config.googleMapStyle);
+    }
   }
 
   Future<void> selectPrediction(

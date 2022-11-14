@@ -4,21 +4,14 @@ import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class PlacePickarteMap extends StatefulWidget {
+class PlacePickarteMap extends StatelessWidget {
   final PlacePickarteController controller;
-  final PinBuilder? pinBuilder;
 
   const PlacePickarteMap({
     required this.controller,
-    this.pinBuilder,
     super.key,
   });
 
-  @override
-  State<PlacePickarteMap> createState() => _PlacePickarteMapState();
-}
-
-class _PlacePickarteMapState extends State<PlacePickarteMap> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -26,29 +19,30 @@ class _PlacePickarteMapState extends State<PlacePickarteMap> {
         GoogleMap(
           myLocationButtonEnabled: false,
           myLocationEnabled: true,
+          mapType: controller.config.mapType,
           onMapCreated: (GoogleMapController mapController) {
-            widget.controller.setGoogleMapController(mapController);
+            controller.setGoogleMapController(mapController);
           },
-          initialCameraPosition: widget.controller.bloc.config.initialCameraPosition,
+          initialCameraPosition: controller.config.initialCameraPosition,
           onCameraIdle: () {
             'camera is now idle'.logiosa();
 
-            widget.controller.bloc.updatePinState(PinState.idle);
+            controller.bloc.updatePinState(PinState.idle);
           },
           onCameraMove: (CameraPosition position) {
             'camera is moving: $position'.logiosa();
 
-            widget.controller.bloc.updateCameraPosition(position);
+            controller.bloc.updateCameraPosition(position);
           },
           onCameraMoveStarted: () {
             'camera started moving'.logiosa();
 
-            widget.controller.bloc.updatePinState(PinState.dragging);
+            controller.bloc.updatePinState(PinState.dragging);
           },
         ),
         PlacePickartePin(
-          pinBuilder: widget.pinBuilder,
-          pinStateStream: widget.controller.bloc.pinStateStream,
+          pinBuilder: controller.config.pinBuilder,
+          pinStateStream: controller.pinStateStream,
         ),
       ],
     );
