@@ -18,8 +18,10 @@ class PlacePickarteController {
     _bloc = PlacePickarteBloc(config: config);
   }
 
-  Stream<CameraPosition?> get cameraPositionStream => _bloc.cameraPositionStream;
-  Stream<GeocodingResult?> get currentLocationStream => _bloc.currentLocationStream;
+  Stream<CameraPosition?> get cameraPositionStream =>
+      _bloc.cameraPositionStream;
+  Stream<GeocodingResult?> get currentLocationStream =>
+      _bloc.currentLocationStream;
   Stream<List<Prediction>?> get predictionsStream => _bloc.predictionsStream;
   Stream<PinState> get pinStateStream => _bloc.pinStateStream;
 

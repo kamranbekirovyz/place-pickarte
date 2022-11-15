@@ -34,8 +34,12 @@ class PlacePickartePin extends StatelessWidget {
 
             // TODO: ability to customize default pin's colors, size, animation, maybe?
             final pinIsBeingDragged = pinState == PinState.dragging;
-            final iconColor = pinIsBeingDragged ? Colors.blueGrey.shade900 : const Color(0xff4285F4);
-            final iconData = pinIsBeingDragged ? Icons.not_listed_location_rounded : Icons.location_on_rounded;
+            final iconColor = pinIsBeingDragged
+                ? Colors.blueGrey.shade900
+                : const Color(0xff4285F4);
+            final iconData = pinIsBeingDragged
+                ? Icons.not_listed_location_rounded
+                : Icons.location_on_rounded;
 
             return AnimatedContainer(
               duration: kThemeAnimationDuration,
