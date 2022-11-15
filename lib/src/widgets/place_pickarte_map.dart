@@ -20,9 +20,7 @@ class PlacePickarteMap extends StatelessWidget {
           myLocationButtonEnabled: false,
           myLocationEnabled: true,
           mapType: controller.config.mapType,
-          onMapCreated: (GoogleMapController mapController) {
-            controller.setGoogleMapController(mapController);
-          },
+          onMapCreated: controller.onGoogleMapCreated,
           initialCameraPosition: controller.config.initialCameraPosition,
           onCameraIdle: () {
             'camera is now idle'.logiosa();

@@ -17,6 +17,7 @@ class PlacePickarteConfig {
   final String? googleMapStyle;
   // TODO: implement map type.
   final MapType mapType;
+  final bool myLocationAsInitial;
   late final CameraPosition _initialCameraPosition;
 
   PlacePickarteConfig({
@@ -27,6 +28,7 @@ class PlacePickarteConfig {
     this.googleMapStyle,
     this.androidApiKey,
     this.iosApiKey,
+    this.myLocationAsInitial = true,
     this.placesAutocompleteConfig,
   }) {
     _initialCameraPosition = CameraPosition(

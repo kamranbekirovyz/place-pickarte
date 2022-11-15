@@ -8,14 +8,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class PlacePickarteController {
   late final PlacePickarteBloc _bloc;
   late final GoogleMapController? _googleMapController;
-  late final PlacePickarteConfig config;
+  final PlacePickarteConfig config;
 
   PlacePickarteBloc get bloc => _bloc;
 
   PlacePickarteController({
-    required PlacePickarteConfig config,
+    required this.config,
   }) {
-    config = config;
     _bloc = PlacePickarteBloc(config: config);
   }
 
@@ -90,12 +89,16 @@ class PlacePickarteController {
     return MyLocationResult.success;
   }
 
-  void setGoogleMapController(GoogleMapController mapController) {
+  void onGoogleMapCreated(GoogleMapController mapController) {
     _googleMapController = mapController;
 
     if (config.googleMapStyle != null) {
       'setting custom map style..'.logiosa();
       _googleMapController!.setMapStyle(config.googleMapStyle);
+    }
+
+    if (config.myLocationAsInitial) {
+      goToMyLocation();
     }
   }
 
