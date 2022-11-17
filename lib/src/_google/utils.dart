@@ -2,8 +2,8 @@ library google_maps_webservice.utils;
 
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
+import 'package:meta/meta.dart';
 
 final kGMapsUrl = Uri.parse('https://maps.googleapis.com/maps/api');
 
@@ -84,7 +84,8 @@ abstract class GoogleWebService {
 
 DateTime dayTimeToDateTime(int day, String time) {
   if (time.length < 4) {
-    throw ArgumentError("'time' is not a valid string. It must be four integers.");
+    throw ArgumentError(
+        "'time' is not a valid string. It must be four integers.");
   }
 
   day = day == 0 ? DateTime.sunday : day;

@@ -1,4 +1,4 @@
-import 'package:place_pickarte/src/_google_services/core/core.dart';
+import 'package:place_pickarte/src/_google/core.dart';
 
 class PlacesAutocompleteConfig {
   final String? sessionToken;
