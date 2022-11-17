@@ -1,6 +1,6 @@
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
-import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
+import 'package:place_pickarte/src/components/place_pickarte_pin.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

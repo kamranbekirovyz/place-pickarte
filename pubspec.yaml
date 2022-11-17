@@ -1,7 +1,8 @@
 name: place_pickarte
 description: A new Flutter project.
 version: 0.0.1
-homepage:
+homepage: https://kamranbekirov.com
+repository: https://github.com/kamranbekirovyz/place-pickarte
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -10,15 +11,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.5
   google_maps_flutter: ^2.2.1
-  google_maps_webservice: ^0.0.20-nullsafety.5
   rxdart: ^0.27.5
   geolocator: ^9.0.2
+  http: ^0.13.5
+  json_annotation: ^4.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: ^2.3.2
+  json_serializable: ^6.5.4
 
 flutter:

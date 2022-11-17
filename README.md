@@ -24,7 +24,7 @@ See the <a href="https://github.com/kamranbekirovyz/place-pickarte/tree/main/exa
 
 ## 💡 Inspired from/by
 
-Give credits to people/packages/plugins/whomever/whatever was/were an inspiration for this package/plugin.
+- Forked and modified <a href="https://github.com/lejard-h/google_maps_webservice">google_maps_webservice</a> according to this package's needs, specifically for not supporting null-safety.
 
 ## 🙏 Credits
 
