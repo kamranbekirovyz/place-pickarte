@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -126,7 +125,13 @@ class PlacePickarteManager {
 
   void changeGoogleMapType(MapType mapType) {
     // Do not rebuild if same [MapType] is being set.
-    if (mapType == googleMapType) return;
+    if (mapType == googleMapType) {
+      'ignoring changing GoogleMap type: already "$mapType"'.logiosa();
+
+      return;
+    }
+
+    'changing GoogleMap type to "$mapType"'.logiosa();
 
     _updateGoogleMapType(mapType);
   }

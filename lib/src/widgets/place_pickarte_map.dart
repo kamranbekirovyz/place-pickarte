@@ -7,8 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class PlacePickarteMap extends StatelessWidget {
   final PlacePickarteController controller;
 
-  const PlacePickarteMap({
-    required this.controller,
+  const PlacePickarteMap(
+    this.controller, {
     super.key,
   });
 

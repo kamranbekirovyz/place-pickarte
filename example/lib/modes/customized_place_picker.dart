@@ -41,9 +41,7 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: PlacePickarteMap(
-        controller: _controller,
-      ),
+      body: PlacePickarteMap(_controller),
       bottomNavigationBar: _buildLocationDetails(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.location_searching_outlined),
