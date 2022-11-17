@@ -6,14 +6,14 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 
-class PlacePickarteBloc {
+class PlacePickarteManager {
   late final PlacePickarteConfig config;
   late final GoogleMapsGeocoding _googleMapsGeocoding;
   late final GoogleMapsPlaces _googleMapsPlaces;
   late final StreamSubscription _pinStateSubscription;
   late final StreamSubscription _searchQuerySubscription;
 
-  PlacePickarteBloc({
+  PlacePickarteManager({
     required this.config,
   }) {
     _googleMapsGeocoding = GoogleMapsGeocoding(
@@ -65,8 +65,7 @@ class PlacePickarteBloc {
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
   void updateSearchQuery(String event) => _searchQuery.add(event);
-  void _updateCurrentLocation(GeocodingResult? event) =>
-      _currentLocation.add(event);
+  void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
   void _updatePredictions(List<Prediction>? event) => _predictions.add(event);
 
   void close() {
@@ -115,8 +114,7 @@ class PlacePickarteBloc {
 
   Future<PlaceDetails> getPlaceDetails(String placeId) async {
     // use PlacesDetailsResponse with its error handling
-    final detailsResponse =
-        await _googleMapsPlaces.getDetailsByPlaceId(placeId);
+    final detailsResponse = await _googleMapsPlaces.getDetailsByPlaceId(placeId);
     return detailsResponse.result;
   }
 }

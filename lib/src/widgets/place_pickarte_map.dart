@@ -25,17 +25,17 @@ class PlacePickarteMap extends StatelessWidget {
           onCameraIdle: () {
             'camera is now idle'.logiosa();
 
-            controller.bloc.updatePinState(PinState.idle);
+            controller.manager.updatePinState(PinState.idle);
           },
           onCameraMove: (CameraPosition position) {
             'camera is moving: $position'.logiosa();
 
-            controller.bloc.updateCameraPosition(position);
+            controller.manager.updateCameraPosition(position);
           },
           onCameraMoveStarted: () {
             'camera started moving'.logiosa();
 
-            controller.bloc.updatePinState(PinState.dragging);
+            controller.manager.updatePinState(PinState.dragging);
           },
         ),
         PlacePickartePin(

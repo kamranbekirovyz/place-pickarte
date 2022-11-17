@@ -1,35 +1,35 @@
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/enums/my_location_result.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
-import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';
+
+// TODO: don't send request when map only zooms in out.
 
 class PlacePickarteController {
-  late final PlacePickarteBloc _bloc;
+  late final PlacePickarteManager _manager;
   late final GoogleMapController? _googleMapController;
   final PlacePickarteConfig config;
 
-  PlacePickarteBloc get bloc => _bloc;
+  PlacePickarteManager get manager => _manager;
 
   PlacePickarteController({
     required this.config,
   }) {
-    _bloc = PlacePickarteBloc(config: config);
+    _manager = PlacePickarteManager(config: config);
   }
 
-  Stream<CameraPosition?> get cameraPositionStream =>
-      _bloc.cameraPositionStream;
-  Stream<GeocodingResult?> get currentLocationStream =>
-      _bloc.currentLocationStream;
-  Stream<List<Prediction>?> get predictionsStream => _bloc.predictionsStream;
-  Stream<PinState> get pinStateStream => _bloc.pinStateStream;
+  Stream<CameraPosition?> get cameraPositionStream => _manager.cameraPositionStream;
+  Stream<GeocodingResult?> get currentLocationStream => _manager.currentLocationStream;
+  Stream<List<Prediction>?> get predictionsStream => _manager.predictionsStream;
+  Stream<PinState> get pinStateStream => _manager.pinStateStream;
 
-  void updateSearchQuery(String value) => _bloc.updateSearchQuery(value);
-  void clearSearchQuery() => _bloc.updateSearchQuery('');
+  void updateSearchQuery(String value) => _manager.updateSearchQuery(value);
+  void clearSearchQuery() => _manager.updateSearchQuery('');
 
   void close() {
-    _bloc.close();
+    _manager.close();
   }
 
   // TODO: move heavy logic to another layer (service)
@@ -40,7 +40,7 @@ class PlacePickarteController {
     double tilt = 0.0,
     double bearing = 0.0,
   }) async {
-    zoom ??= _bloc.config.initialCameraPosition.zoom;
+    zoom ??= _manager.config.initialCameraPosition.zoom;
 
     if (!await Geolocator.isLocationServiceEnabled()) {
       return MyLocationResult.serviceNotEnabled;
@@ -112,8 +112,8 @@ class PlacePickarteController {
     double tilt = 0.0,
     double bearing = 0.0,
   }) async {
-    final placeDetails = await _bloc.getPlaceDetails(prediction.placeId!);
-    zoom ??= _bloc.config.initialCameraPosition.zoom;
+    final placeDetails = await _manager.getPlaceDetails(prediction.placeId!);
+    zoom ??= _manager.config.initialCameraPosition.zoom;
 
     return _googleMapController!.animateCamera(
       CameraUpdate.newCameraPosition(
