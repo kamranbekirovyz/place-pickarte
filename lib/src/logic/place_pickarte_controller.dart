@@ -3,7 +3,7 @@ import 'package:place_pickarte/src/enums/my_location_result.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:place_pickarte/src/logic/place_pickarte_bloc.dart';
+import 'package:place_pickarte/src/logic/place_pickarte_manager.dart';
 
 // TODO: don't send request when map only zooms in out.
 
@@ -24,6 +24,7 @@ class PlacePickarteController {
   Stream<GeocodingResult?> get currentLocationStream => _manager.currentLocationStream;
   Stream<List<Prediction>?> get predictionsStream => _manager.predictionsStream;
   Stream<PinState> get pinStateStream => _manager.pinStateStream;
+  Stream<MapType> get googleMapTypeStream => _manager.googleMapTypeStream;
 
   void updateSearchQuery(String value) => _manager.updateSearchQuery(value);
   void clearSearchQuery() => _manager.updateSearchQuery('');
@@ -128,5 +129,9 @@ class PlacePickarteController {
         ),
       ),
     );
+  }
+
+  void changeGoogleMapType(MapType mapType) {
+    return manager.changeGoogleMapType(mapType);
   }
 }

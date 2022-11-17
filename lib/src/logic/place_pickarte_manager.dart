@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -52,23 +53,28 @@ class PlacePickarteManager {
   final _searchQuery = BehaviorSubject<String>.seeded('');
   final _currentLocation = BehaviorSubject<GeocodingResult?>();
   final _predictions = BehaviorSubject<List<Prediction>?>();
+  final _googleMapType = BehaviorSubject<MapType>.seeded(MapType.normal);
 
   Stream<PinState> get pinStateStream => _pinState.stream;
   Stream<CameraPosition?> get cameraPositionStream => _cameraPosition.stream;
   Stream<String> get searchQueryStream => _searchQuery.stream;
   Stream<GeocodingResult?> get currentLocationStream => _currentLocation.stream;
   Stream<List<Prediction>?> get predictionsStream => _predictions.stream;
+  Stream<MapType> get googleMapTypeStream => _googleMapType.stream;
 
   CameraPosition? get cameraPosition => _cameraPosition.valueOrNull;
   List<Prediction>? get predictions => _predictions.valueOrNull;
+  MapType get googleMapType => _googleMapType.value;
 
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
   void updateSearchQuery(String event) => _searchQuery.add(event);
   void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
   void _updatePredictions(List<Prediction>? event) => _predictions.add(event);
+  void _updateGoogleMapType(MapType event) => _googleMapType.add(event);
 
   void close() {
+    _googleMapType.close();
     _predictions.close();
     _currentLocation.close();
     _searchQuery.close();
@@ -116,5 +122,12 @@ class PlacePickarteManager {
     // use PlacesDetailsResponse with its error handling
     final detailsResponse = await _googleMapsPlaces.getDetailsByPlaceId(placeId);
     return detailsResponse.result;
+  }
+
+  void changeGoogleMapType(MapType mapType) {
+    // Do not rebuild if same [MapType] is being set.
+    if (mapType == googleMapType) return;
+
+    _updateGoogleMapType(mapType);
   }
 }

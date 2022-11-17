@@ -16,26 +16,34 @@ class PlacePickarteMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GoogleMap(
-          myLocationButtonEnabled: false,
-          myLocationEnabled: true,
-          mapType: controller.config.mapType,
-          onMapCreated: controller.onGoogleMapCreated,
-          initialCameraPosition: controller.config.initialCameraPosition,
-          onCameraIdle: () {
-            'camera is now idle'.logiosa();
+        StreamBuilder<MapType>(
+          initialData: controller.config.googleMapType,
+          stream: controller.googleMapTypeStream,
+          builder: (context, snapshot) {
+            final googleMapType = snapshot.requireData;
 
-            controller.manager.updatePinState(PinState.idle);
-          },
-          onCameraMove: (CameraPosition position) {
-            'camera is moving: $position'.logiosa();
+            return GoogleMap(
+              myLocationButtonEnabled: false,
+              myLocationEnabled: true,
+              mapType: googleMapType,
+              onMapCreated: controller.onGoogleMapCreated,
+              initialCameraPosition: controller.config.initialCameraPosition,
+              onCameraIdle: () {
+                'camera is now idle'.logiosa();
 
-            controller.manager.updateCameraPosition(position);
-          },
-          onCameraMoveStarted: () {
-            'camera started moving'.logiosa();
+                controller.manager.updatePinState(PinState.idle);
+              },
+              onCameraMove: (CameraPosition position) {
+                'camera is moving: $position'.logiosa();
 
-            controller.manager.updatePinState(PinState.dragging);
+                controller.manager.updateCameraPosition(position);
+              },
+              onCameraMoveStarted: () {
+                'camera started moving'.logiosa();
+
+                controller.manager.updatePinState(PinState.dragging);
+              },
+            );
           },
         ),
         PlacePickartePin(

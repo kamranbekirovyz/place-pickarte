@@ -15,15 +15,14 @@ class PlacePickarteConfig {
   final PinBuilder? pinBuilder;
   // TODO: implement map style.
   final String? googleMapStyle;
-  // TODO: implement map type.
-  final MapType mapType;
+  final MapType googleMapType;
   final bool myLocationAsInitial;
   late final CameraPosition _initialCameraPosition;
 
   PlacePickarteConfig({
     LatLng initialLocation = _initialDefaultLocationLatLng,
     double initialZoom = _initialCameraZoom,
-    this.mapType = MapType.normal,
+    this.googleMapType = MapType.normal,
     this.pinBuilder,
     this.googleMapStyle,
     this.androidApiKey,
