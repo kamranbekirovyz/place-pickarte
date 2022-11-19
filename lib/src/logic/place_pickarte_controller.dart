@@ -25,6 +25,7 @@ class PlacePickarteController {
   Stream<List<Prediction>?> get predictionsStream => _manager.predictionsStream;
   Stream<PinState> get pinStateStream => _manager.pinStateStream;
   Stream<MapType> get googleMapTypeStream => _manager.googleMapTypeStream;
+  Stream<String> get searchQueryStream => _manager.searchQueryStream;
 
   void updateSearchQuery(String value) => _manager.updateSearchQuery(value);
   void clearSearchQuery() => _manager.updateSearchQuery('');
