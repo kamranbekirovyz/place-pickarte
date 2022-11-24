@@ -69,7 +69,8 @@ class PlacePickarteManager {
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
   void updateSearchQuery(String event) => _searchQuery.add(event);
-  void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
+  void _updateCurrentLocation(GeocodingResult? event) =>
+      _currentLocation.add(event);
   void _updatePredictions(List<Prediction>? event) => _predictions.add(event);
   void _updateGoogleMapType(MapType event) => _googleMapType.add(event);
 
@@ -120,7 +121,8 @@ class PlacePickarteManager {
 
   Future<PlaceDetails> getPlaceDetails(String placeId) async {
     // use PlacesDetailsResponse with its error handling
-    final detailsResponse = await _googleMapsPlaces.getDetailsByPlaceId(placeId);
+    final detailsResponse =
+        await _googleMapsPlaces.getDetailsByPlaceId(placeId);
     return detailsResponse.result;
   }
 
