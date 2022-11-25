@@ -1,7 +1,7 @@
 
 # place_pickarte
 
-Sophisticated, artistic, pixel-by-pixel customizable place picker from map alongside precanned UI components supporting GoogleMaps for now, Openstreet and Mapbox are on roadmap.
+Sophisticated, artistic, pixel-by-pixel customizable place picker from with built-in UI components. Supporting GoogleMaps for now, Openstreet and Mapbox on roadmap.
 
 <img src="#" alt="cover_picture" />
 
