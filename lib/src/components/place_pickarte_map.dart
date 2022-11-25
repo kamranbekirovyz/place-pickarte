@@ -49,6 +49,7 @@ class PlacePickarteMap extends StatelessWidget {
         PlacePickartePin(
           pinBuilder: controller.config.pinBuilder,
           pinStateStream: controller.pinStateStream,
+          // pinKey: controller.config.pinKey,
         ),
       ],
     );

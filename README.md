@@ -5,6 +5,8 @@ Sophisticated, artistic, pixel-by-pixel customizable place picker from with buil
 
 <img src="#" alt="cover_picture" />
 
+## 📐 Features
+
 ## 🚀 Motivation
 
 Motivation for creating package/plugin.
