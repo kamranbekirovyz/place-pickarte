@@ -30,7 +30,7 @@ class _PlacePickartePinState extends State<PlacePickartePin> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       /// To make sure the pin's down side really points to the location user...
-      Future.delayed(const Duration(milliseconds: 12), () {
+      Future.delayed(const Duration(milliseconds: 200), () {
         final box = _pinKey.currentContext?.findRenderObject() as RenderBox?;
         final height = box?.size.height;
 

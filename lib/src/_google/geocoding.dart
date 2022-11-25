@@ -145,8 +145,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
     return url.replace(queryParameters: params).toString();
   }
 
-  GeocodingResponse _decode(Response res) =>
-      GeocodingResponse.fromJson(json.decode(res.body));
+  GeocodingResponse _decode(Response res) => GeocodingResponse.fromJson(json.decode(res.body));
 }
 
 @JsonSerializable()
@@ -163,8 +162,7 @@ class GeocodingResponse extends GoogleResponseStatus {
           errorMessage: errorMessage,
         );
 
-  factory GeocodingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GeocodingResponseFromJson(json);
+  factory GeocodingResponse.fromJson(Map<String, dynamic> json) => _$GeocodingResponseFromJson(json);
   Map<String, dynamic> toJson() => _$GeocodingResponseToJson(this);
 }
 
@@ -203,8 +201,7 @@ class GeocodingResult {
     this.formattedAddress,
   });
 
-  factory GeocodingResult.fromJson(Map<String, dynamic> json) =>
-      _$GeocodingResultFromJson(json);
+  factory GeocodingResult.fromJson(Map<String, dynamic> json) => _$GeocodingResultFromJson(json);
   Map<String, dynamic> toJson() => _$GeocodingResultToJson(this);
 }
 
@@ -264,20 +261,17 @@ class StreetAddress {
       addressLine: geocodingResult.formattedAddress,
       countryName: country?.longName,
       countryCode: country?.shortName,
-      featureName:
-          search('featureName')?.longName ?? geocodingResult.formattedAddress,
+      featureName: search('featureName')?.longName ?? geocodingResult.formattedAddress,
       postalCode: search('postal_code')?.longName,
       adminArea: search('administrative_area_level_1')?.longName,
       subAdminArea: search('administrative_area_level_2')?.longName,
       locality: search('locality')?.longName,
-      subLocality:
-          (search('sublocality') ?? search('sublocality_level_1'))?.longName,
+      subLocality: (search('sublocality') ?? search('sublocality_level_1'))?.longName,
       thoroughfare: search('route')?.longName,
       subThoroughfare: search('street_number')?.longName,
     );
   }
 
-  factory StreetAddress.fromJson(Map<String, dynamic> json) =>
-      _$StreetAddressFromJson(json);
+  factory StreetAddress.fromJson(Map<String, dynamic> json) => _$StreetAddressFromJson(json);
   Map<String, dynamic> toJson() => _$StreetAddressToJson(this);
 }
