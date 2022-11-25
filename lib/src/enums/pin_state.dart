@@ -1,4 +1,0 @@
-enum PinState {
-  idle,
-  dragging,
-}
