@@ -1,5 +1,5 @@
 import 'package:place_pickarte/place_pickarte.dart';
-import 'package:place_pickarte/src/enums/my_location_result.dart';
+import 'package:place_pickarte/src/models/enums/my_location_result.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -117,6 +117,8 @@ class PlacePickarteController {
     final placeDetails = await _manager.getPlaceDetails(prediction.placeId!);
     zoom ??= _manager.config.initialCameraPosition.zoom;
 
+    clearPredictions();
+
     return _googleMapController!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -132,17 +134,35 @@ class PlacePickarteController {
     );
   }
 
-  void changeGoogleMapType(MapType mapType) {
+  /// Sets the type of [GoogleMap] tiles to be rendered and updates the map view.
+  void setGoogleMapType(MapType mapType) {
     return manager.changeGoogleMapType(mapType);
   }
 
+  /// Sets the styling of the [GoogleMap].
+  ///
+  /// If problems were detected with the [mapStyle], including un-parsable
+  /// styling JSON, unrecognized feature type, unrecognized element type, or
+  /// invalid styler keys: [MapStyleException] is thrown and the current
+  /// style is left unchanged.
+  ///
+  /// The style string can be generated using [map style tool](https://mapstyle.withgoogle.com/).
+  /// Also, refer [iOS](https://developers.google.com/maps/documentation/ios-sdk/style-reference)
+  /// and [Android](https://developers.google.com/maps/documentation/android-sdk/style-reference)
+  /// style reference for more information regarding the supported styles.
   Future<void>? setGoogleMapStyle(String? mapStyle) {
     return _googleMapController?.setMapStyle(mapStyle);
   }
 
+  /// Restores the styling of the [GoogleMap] to the standard and default one.
   Future<void>? resetGoogleMapStyle() {
     return _googleMapController?.setMapStyle(GoogleMapStyles.standard);
   }
 
-  void resetPredictions() => manager.resetPredictions();
+  /// Clears prediction result.
+  ///
+  /// When a prediction is selected (using selectPrediction(...) method), it's
+  /// suggested to clear the previous prediction results so that when user
+  /// renavigates to the search view, the last results are not visible.
+  void clearPredictions() => manager.resetPredictions();
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:place_pickarte/src/_google/core.dart';
-import 'package:place_pickarte/src/_google/geocoding.dart';
-import 'package:place_pickarte/src/_google/places.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
+import 'package:place_pickarte/src/services/google/core.dart';
+import 'package:place_pickarte/src/services/google/geocoding.dart';
+import 'package:place_pickarte/src/services/google/places.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 
