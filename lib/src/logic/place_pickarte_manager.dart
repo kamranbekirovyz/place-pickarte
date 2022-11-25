@@ -136,4 +136,8 @@ class PlacePickarteManager {
 
     _updateGoogleMapType(mapType);
   }
+
+  void resetPredictions() {
+    _updatePredictions(null);
+  }
 }

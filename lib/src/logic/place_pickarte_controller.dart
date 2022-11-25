@@ -143,4 +143,6 @@ class PlacePickarteController {
   Future<void>? resetGoogleMapStyle() {
     return _googleMapController?.setMapStyle(GoogleMapStyles.standard);
   }
+
+  void resetPredictions() => manager.resetPredictions();
 }

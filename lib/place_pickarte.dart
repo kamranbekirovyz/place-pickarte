@@ -2,6 +2,7 @@ library place_pickarte;
 
 export 'package:google_maps_flutter/google_maps_flutter.dart' show CameraPosition, MapType;
 
+export 'package:place_pickarte/src/components/place_pickarte_prediction_item.dart';
 export 'src/helpers/google_map_styles.dart';
 export 'src/_google/geocoding.dart' show GeocodingResult;
 export 'src/_google/places.dart' show Prediction, PlaceDetails;
