@@ -20,10 +20,8 @@ class PlacePickarteController {
     _manager = PlacePickarteManager(config: config);
   }
 
-  Stream<CameraPosition?> get cameraPositionStream =>
-      _manager.cameraPositionStream;
-  Stream<GeocodingResult?> get currentLocationStream =>
-      _manager.currentLocationStream;
+  Stream<CameraPosition?> get cameraPositionStream => _manager.cameraPositionStream;
+  Stream<GeocodingResult?> get currentLocationStream => _manager.currentLocationStream;
   Stream<List<Prediction>?> get predictionsStream => _manager.predictionsStream;
   Stream<PinState> get pinStateStream => _manager.pinStateStream;
   Stream<MapType> get googleMapTypeStream => _manager.googleMapTypeStream;
@@ -136,5 +134,13 @@ class PlacePickarteController {
 
   void changeGoogleMapType(MapType mapType) {
     return manager.changeGoogleMapType(mapType);
+  }
+
+  Future<void>? setGoogleMapStyle(String? mapStyle) {
+    return _googleMapController?.setMapStyle(mapStyle);
+  }
+
+  Future<void>? resetGoogleMapStyle() {
+    return _googleMapController?.setMapStyle(GoogleMapStyles.standard);
   }
 }

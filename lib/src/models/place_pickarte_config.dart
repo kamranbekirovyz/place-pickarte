@@ -13,7 +13,6 @@ class PlacePickarteConfig {
   final String? iosApiKey;
   final PlacesAutocompleteConfig? placesAutocompleteConfig;
   final PinBuilder? pinBuilder;
-  // TODO: implement map style.
   final String? googleMapStyle;
   final MapType googleMapType;
   final bool myLocationAsInitial;
