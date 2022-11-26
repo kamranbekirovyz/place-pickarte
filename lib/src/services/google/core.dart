@@ -111,11 +111,7 @@ abstract class GoogleResponse<T> extends GoogleResponseStatus {
 class AddressComponent {
   @JsonKey(defaultValue: <String>[])
   final List<String> types;
-
-  /// JSON long_name
   final String longName;
-
-  /// JSON short_name
   final String shortName;
 
   AddressComponent({
@@ -123,6 +119,10 @@ class AddressComponent {
     required this.longName,
     required this.shortName,
   });
+
+  static const locality = 'locality';
+  static const country = 'country';
+  static const streetNumber = 'street_number';
 
   factory AddressComponent.fromJson(Map<String, dynamic> json) => _$AddressComponentFromJson(json);
   Map<String, dynamic> toJson() => _$AddressComponentToJson(this);

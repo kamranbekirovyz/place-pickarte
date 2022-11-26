@@ -1,6 +1,6 @@
 import 'package:place_pickarte/src/models/places_autocomplete_config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:place_pickarte/src/components/place_pickarte_pin.dart';
+import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
 
 const _initialDefaultLocationLatLng = LatLng(
   23.1311098,
@@ -16,7 +16,6 @@ class PlacePickarteConfig {
   final String? googleMapStyle;
   final MapType googleMapType;
   final bool myLocationAsInitial;
-  late final CameraPosition _initialCameraPosition;
 
   PlacePickarteConfig({
     LatLng initialLocation = _initialDefaultLocationLatLng,
@@ -35,5 +34,6 @@ class PlacePickarteConfig {
     );
   }
 
+  late final CameraPosition _initialCameraPosition;
   CameraPosition get initialCameraPosition => _initialCameraPosition;
 }

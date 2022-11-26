@@ -171,24 +171,19 @@ class GeocodingResult {
   @JsonKey(defaultValue: <String>[])
   final List<String> types;
 
-  /// JSON formatted_address
   final String? formattedAddress;
 
-  /// JSON address_components
   @JsonKey(defaultValue: <AddressComponent>[])
   final List<AddressComponent> addressComponents;
 
-  /// JSON postcode_localities
   @JsonKey(defaultValue: <String>[])
   final List<String> postcodeLocalities;
 
   final Geometry geometry;
 
-  /// JSON partial_match
   @JsonKey(defaultValue: false)
   final bool partialMatch;
 
-  /// JSON place_id
   final String placeId;
 
   GeocodingResult({
@@ -201,13 +196,13 @@ class GeocodingResult {
     this.formattedAddress,
   });
 
+  PickedPlaceDetailed get details => PickedPlaceDetailed.fromGeocodingResult(this);
+
   factory GeocodingResult.fromJson(Map<String, dynamic> json) => _$GeocodingResultFromJson(json);
   Map<String, dynamic> toJson() => _$GeocodingResultToJson(this);
 }
 
-@JsonSerializable()
-class StreetAddress {
-  final Geometry? geometry;
+class PickedPlaceDetailed {
   final String? addressLine;
   final String? countryName;
   final String? countryCode;
@@ -216,16 +211,14 @@ class StreetAddress {
   final String? adminArea;
   final String? subAdminArea;
   final String? locality;
+  final String? city;
   final String? subLocality;
-
-  /// Route
   final String? thoroughfare;
-
-  /// Street Number
+  final String? streetName;
   final String? subThoroughfare;
+  final String? streetNumber;
 
-  StreetAddress({
-    this.geometry,
+  const PickedPlaceDetailed({
     this.addressLine,
     this.countryName,
     this.countryCode,
@@ -234,15 +227,19 @@ class StreetAddress {
     this.adminArea,
     this.subAdminArea,
     this.locality,
+    this.city,
     this.subLocality,
     this.thoroughfare,
+    this.streetName,
     this.subThoroughfare,
+    this.streetNumber,
   });
 
-  factory StreetAddress.fromGeocodingResult(GeocodingResult geocodingResult) {
-    if (!geocodingResult.types.contains('street_address')) {
-      throw ArgumentError.value('street_address type not found in result');
-    }
+  factory PickedPlaceDetailed.fromGeocodingResult(GeocodingResult geocodingResult) {
+    // TODO: should this to be not removed?
+    // if (!geocodingResult.types.contains('street_address')) {
+    //   throw ArgumentError.value('street_address type not found in result');
+    // }
 
     AddressComponent? search(String type) {
       try {
@@ -256,8 +253,7 @@ class StreetAddress {
 
     final country = search('country');
 
-    return StreetAddress(
-      geometry: geocodingResult.geometry,
+    return PickedPlaceDetailed(
       addressLine: geocodingResult.formattedAddress,
       countryName: country?.longName,
       countryCode: country?.shortName,
@@ -266,12 +262,12 @@ class StreetAddress {
       adminArea: search('administrative_area_level_1')?.longName,
       subAdminArea: search('administrative_area_level_2')?.longName,
       locality: search('locality')?.longName,
+      city: search('locality')?.longName,
       subLocality: (search('sublocality') ?? search('sublocality_level_1'))?.longName,
       thoroughfare: search('route')?.longName,
+      streetName: search('route')?.longName,
       subThoroughfare: search('street_number')?.longName,
+      streetNumber: search('street_number')?.longName,
     );
   }
-
-  factory StreetAddress.fromJson(Map<String, dynamic> json) => _$StreetAddressFromJson(json);
-  Map<String, dynamic> toJson() => _$StreetAddressToJson(this);
 }
