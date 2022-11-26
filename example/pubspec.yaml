@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   place_pickarte:
     path: ../
+  flutter_artkit:
 
 dev_dependencies:
   flutter_test:
