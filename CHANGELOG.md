@@ -1,3 +1,9 @@
+## 0.1.0
+
+- Now, no matter its size, pin widget points exactly to the centered location on the map.
+- Cleaned up Google services.
+- Added documentation to some APIs.
+
 ## 0.0.5
 
 - [PlacePickartePredictionItem] widget for easily displaying prediction results.
