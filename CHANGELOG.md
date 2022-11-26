@@ -1,3 +1,9 @@
+## 0.2.0
+
+- Renamed "prediction" as "autocomplete", hence some APIs have changed.
+- Renamed [PlacePickartePredictionItem] as [PlacePickarteAutocompleteItem].
+- Fixed [ListTile] issue of [PlacePickartePredictionItem].
+
 ## 0.1.0
 
 - Now, no matter its size, pin widget points exactly to the centered location on the map.

@@ -38,4 +38,4 @@ If you encounter any problems please open an issue. If you feel the library is m
 
 ## 📃 License
 
-MIT License
+<a href="https://github.com/kamranbekirovyz/place-pickarte/LICENSE">MIT License</a>

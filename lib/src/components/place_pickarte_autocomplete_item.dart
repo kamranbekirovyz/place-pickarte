@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 
-class PlacePickartePredictionItem extends StatelessWidget {
+class PlacePickarteAutocompleteItem extends StatelessWidget {
   final Prediction prediction;
   final Function(Prediction item) onTap;
 
-  const PlacePickartePredictionItem({
+  const PlacePickarteAutocompleteItem({
     required this.prediction,
     required this.onTap,
     super.key,
@@ -13,13 +13,15 @@ class PlacePickartePredictionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        onTap.call(prediction);
-      },
-      title: RichText(
-        text: TextSpan(children: getStyledTexts(context)),
+    return Material(
+      child: ListTile(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          onTap.call(prediction);
+        },
+        title: RichText(
+          text: TextSpan(children: getStyledTexts(context)),
+        ),
       ),
     );
   }

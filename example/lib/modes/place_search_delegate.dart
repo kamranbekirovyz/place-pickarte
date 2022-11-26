@@ -27,10 +27,10 @@ class PlaceSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    controller.updateSearchQuery(query);
+    controller.searchAutocomplete(query);
 
     return StreamBuilder<List<Prediction>?>(
-      stream: controller.predictionsStream,
+      stream: controller.autocompleteResultsStream,
       builder: (_, snapshot) {
         final ready = snapshot.hasData;
 
@@ -51,7 +51,7 @@ class PlaceSearchDelegate extends SearchDelegate {
             return ListTile(
               onTap: () {
                 close(context, null);
-                controller.selectPrediction(prediction);
+                controller.selectAutocompleteItem(prediction);
               },
               title: Text(prediction.description ?? 'asd'),
               trailing: const Icon(Icons.chevron_right_outlined),

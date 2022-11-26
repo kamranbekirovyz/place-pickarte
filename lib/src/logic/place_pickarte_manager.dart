@@ -52,30 +52,31 @@ class PlacePickarteManager {
   final _cameraPosition = BehaviorSubject<CameraPosition?>();
   final _searchQuery = BehaviorSubject<String>.seeded('');
   final _currentLocation = BehaviorSubject<GeocodingResult?>();
-  final _predictions = BehaviorSubject<List<Prediction>?>();
+  final _autocompleteResults = BehaviorSubject<List<Prediction>?>();
   final _googleMapType = BehaviorSubject<MapType>.seeded(MapType.normal);
 
   Stream<PinState> get pinStateStream => _pinState.stream;
   Stream<CameraPosition?> get cameraPositionStream => _cameraPosition.stream;
   Stream<String> get searchQueryStream => _searchQuery.stream;
   Stream<GeocodingResult?> get currentLocationStream => _currentLocation.stream;
-  Stream<List<Prediction>?> get predictionsStream => _predictions.stream;
+  Stream<List<Prediction>?> get autocompleteResultsStream => _autocompleteResults.stream;
   Stream<MapType> get googleMapTypeStream => _googleMapType.stream;
 
   CameraPosition? get cameraPosition => _cameraPosition.valueOrNull;
-  List<Prediction>? get predictions => _predictions.valueOrNull;
+  List<Prediction>? get autocompleteResults => _autocompleteResults.valueOrNull;
   MapType get googleMapType => _googleMapType.value;
+  GeocodingResult? get currentLocation => _currentLocation.valueOrNull;
 
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
-  void updateSearchQuery(String event) => _searchQuery.add(event);
+  void searchAutocomplete(String event) => _searchQuery.add(event);
   void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
-  void _updatePredictions(List<Prediction>? event) => _predictions.add(event);
+  void _updateAutocompleteResults(List<Prediction>? event) => _autocompleteResults.add(event);
   void _updateGoogleMapType(MapType event) => _googleMapType.add(event);
 
   void close() {
     _googleMapType.close();
-    _predictions.close();
+    _autocompleteResults.close();
     _currentLocation.close();
     _searchQuery.close();
     _pinState.close();
@@ -85,7 +86,7 @@ class PlacePickarteManager {
   }
 
   Future<void> _searchAutocomplete(String query) async {
-    _updatePredictions(null);
+    _updateAutocompleteResults(null);
     final result = await _googleMapsPlaces.autocomplete(
       query,
       sessionToken: config.placesAutocompleteConfig?.sessionToken,
@@ -103,7 +104,7 @@ class PlacePickarteManager {
     if (result.errorMessage != null && result.errorMessage!.isNotEmpty) {
       '📛 ${result.errorMessage!}'.logiosa();
     } else {
-      _updatePredictions(result.predictions);
+      _updateAutocompleteResults(result.predictions);
     }
   }
 
@@ -137,7 +138,7 @@ class PlacePickarteManager {
     _updateGoogleMapType(mapType);
   }
 
-  void resetPredictions() {
-    _updatePredictions(null);
+  void clearAutocompleteResults() {
+    _updateAutocompleteResults(null);
   }
 }

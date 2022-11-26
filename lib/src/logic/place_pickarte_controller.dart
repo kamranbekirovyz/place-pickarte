@@ -22,13 +22,15 @@ class PlacePickarteController {
 
   Stream<CameraPosition?> get cameraPositionStream => _manager.cameraPositionStream;
   Stream<GeocodingResult?> get currentLocationStream => _manager.currentLocationStream;
-  Stream<List<Prediction>?> get predictionsStream => _manager.predictionsStream;
+  Stream<List<Prediction>?> get autocompleteResultsStream => _manager.autocompleteResultsStream;
   Stream<PinState> get pinStateStream => _manager.pinStateStream;
   Stream<MapType> get googleMapTypeStream => _manager.googleMapTypeStream;
   Stream<String> get searchQueryStream => _manager.searchQueryStream;
 
-  void updateSearchQuery(String value) => _manager.updateSearchQuery(value);
-  void clearSearchQuery() => _manager.updateSearchQuery('');
+  GeocodingResult? get currentLocation => _manager.currentLocation;
+
+  void searchAutocomplete(String query) => _manager.searchAutocomplete(query);
+  void clearSearchQuery() => _manager.searchAutocomplete('');
 
   void close() {
     _manager.close();
@@ -106,7 +108,7 @@ class PlacePickarteController {
     }
   }
 
-  Future<void> selectPrediction(
+  Future<void> selectAutocompleteItem(
     Prediction prediction, {
     bool animate = true,
     LocationAccuracy accuracy = LocationAccuracy.best,
@@ -117,7 +119,7 @@ class PlacePickarteController {
     final placeDetails = await _manager.getPlaceDetails(prediction.placeId!);
     zoom ??= _manager.config.initialCameraPosition.zoom;
 
-    clearPredictions();
+    clearAutocompleteResults();
 
     return _googleMapController!.animateCamera(
       CameraUpdate.newCameraPosition(
@@ -161,8 +163,8 @@ class PlacePickarteController {
 
   /// Clears prediction result.
   ///
-  /// When a prediction is selected (using selectPrediction(...) method), it's
+  /// When a prediction is selected (using selectAutocompleteItem(...) method), it's
   /// suggested to clear the previous prediction results so that when user
   /// renavigates to the search view, the last results are not visible.
-  void clearPredictions() => manager.resetPredictions();
+  void clearAutocompleteResults() => manager.clearAutocompleteResults();
 }
