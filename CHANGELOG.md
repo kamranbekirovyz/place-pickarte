@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Now, using details property, city, countryName, streetName, streetNumber and etc. can be get from picked place.
+
 ## 0.2.0
 
 - Renamed "prediction" as "autocomplete", hence some APIs have changed.
