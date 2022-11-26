@@ -12,8 +12,6 @@ class PlacePickarteController {
   late final GoogleMapController? _googleMapController;
   final PlacePickarteConfig config;
 
-  PlacePickarteManager get manager => _manager;
-
   PlacePickarteController({
     required this.config,
   }) {
@@ -138,7 +136,7 @@ class PlacePickarteController {
 
   /// Sets the type of [GoogleMap] tiles to be rendered and updates the map view.
   void setGoogleMapType(MapType mapType) {
-    return manager.changeGoogleMapType(mapType);
+    return _manager.changeGoogleMapType(mapType);
   }
 
   /// Sets the styling of the [GoogleMap].
@@ -166,5 +164,29 @@ class PlacePickarteController {
   /// When a prediction is selected (using selectAutocompleteItem(...) method), it's
   /// suggested to clear the previous prediction results so that when user
   /// renavigates to the search view, the last results are not visible.
-  void clearAutocompleteResults() => manager.clearAutocompleteResults();
+  void clearAutocompleteResults() => _manager.clearAutocompleteResults();
+
+  /// Communication method for [PlacePickarteController] and [GoogleMaps].
+  ///
+  /// Must not be called manually.
+  void onCameraMove(CameraPosition position) {
+    'camera is moving: $position'.logiosa();
+    _manager.updateCameraPosition(position);
+  }
+
+  /// Communication method for [PlacePickarteController] and [GoogleMaps].
+  ///
+  /// Must not be called manually.
+  void onCameraIdle() {
+    'camera is now idle'.logiosa();
+    _manager.updatePinState(PinState.idle);
+  }
+
+  /// Communication method for [PlacePickarteController] and [GoogleMaps].
+  ///
+  /// Must not be called manually.
+  void onCameraMoveStarted() {
+    'camera started moving'.logiosa();
+    _manager.updatePinState(PinState.dragging);
+  }
 }
