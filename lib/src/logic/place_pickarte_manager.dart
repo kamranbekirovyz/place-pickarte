@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:place_pickarte/src/services/google/core.dart';
-import 'package:place_pickarte/src/services/google/geocoding.dart';
 import 'package:place_pickarte/src/services/google/places.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 
 class PlacePickarteManager {
   late final PlacePickarteConfig config;
-  late final GoogleMapsGeocoding _googleMapsGeocoding;
+  // late final GoogleMapsGeocoding _googleMapsGeocoding;
   late final GoogleMapsPlaces _googleMapsPlaces;
   late final StreamSubscription _pinStateSubscription;
   late final StreamSubscription _searchQuerySubscription;
@@ -18,12 +17,12 @@ class PlacePickarteManager {
     required this.config,
   }) {
     if (config.mapProvider == MapProvider.googleMap) {
-      _googleMapsGeocoding = GoogleMapsGeocoding(
-        apiKey: config.googleMapConfig!.iosApiKey,
-      );
-      _googleMapsPlaces = GoogleMapsPlaces(
-        apiKey: config.googleMapConfig!.iosApiKey,
-      );
+      // _googleMapsGeocoding = GoogleMapsGeocoding(
+      //   apiKey: config.googleMapConfig!.iosApiKey,
+      // );
+      // _googleMapsPlaces = GoogleMapsPlaces(
+      //   apiKey: config.googleMapConfig!.iosApiKey,
+      // );
     }
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
       /// null check before using value (CameraPosition subject is nullable).
@@ -40,7 +39,8 @@ class PlacePickarteManager {
       }
     });
 
-    _searchQuerySubscription = _searchQuery
+// TODO: searchs when controller created.
+    /* _searchQuerySubscription = _searchQuery
         .distinct()
         .debounceTime(
           const Duration(milliseconds: 500),
@@ -48,6 +48,7 @@ class PlacePickarteManager {
         .listen((String event) {
       _searchAutocomplete(event);
     });
+   */
   }
 
   final _pinState = BehaviorSubject<PinState>.seeded(PinState.idle);
@@ -111,8 +112,13 @@ class PlacePickarteManager {
   }
 
   Future<void> _searchByLocation(Location location) async {
+    if (config.googleMapsGeocoding == null) {
+      // TODO: implement exception.
+      throw '';
+    }
+
     _updateCurrentLocation(null);
-    final result = await _googleMapsGeocoding.searchByLocation(location);
+    final result = await config.googleMapsGeocoding!.searchByLocation(location);
 
     if (result.errorMessage != null && result.errorMessage!.isNotEmpty) {
       '📛 ${result.errorMessage!}'.logiosa();

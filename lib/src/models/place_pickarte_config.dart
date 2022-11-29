@@ -1,5 +1,4 @@
 import 'package:place_pickarte/place_pickarte.dart';
-import 'package:place_pickarte/src/models/mapbox_config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_pickarte/src/services/google/core.dart';
 import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
@@ -16,6 +15,7 @@ class PlacePickarteConfig {
   final PlacesAutocompleteConfig? placesAutocompleteConfig;
   final PinBuilder? pinBuilder;
   final bool myLocationAsInitial;
+  final GoogleMapsGeocoding? googleMapsGeocoding;
 
   PlacePickarteConfig({
     this.googleMapConfig,
@@ -23,6 +23,7 @@ class PlacePickarteConfig {
     Location? initialLocation,
     double initialZoom = _initialCameraZoom,
     this.pinBuilder,
+    this.googleMapsGeocoding,
     this.myLocationAsInitial = true,
     this.placesAutocompleteConfig,
   }) {

@@ -1,20 +1,28 @@
+import 'package:flutter_map/plugin_api.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/models/enums/my_location_result.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_pickarte/src/logic/place_pickarte_manager.dart';
+import 'package:latlong2/latlong.dart' as lat_lng2;
 
 // TODO: don't send request when map only zooms in out.
+// TODO: add session token.
+// TODO: add isMyLocationLoading stream (RxCommand).
 
 class PlacePickarteController {
   late final PlacePickarteManager _manager;
   late final GoogleMapController? _googleMapController;
+  late final MapController? mapBoxController;
   final PlacePickarteConfig config;
 
   PlacePickarteController({
     required this.config,
   }) {
+    if (config.mapProvider == MapProvider.mapbox) {
+      mapBoxController = MapController();
+    }
     _manager = PlacePickarteManager(config: config);
   }
 
@@ -70,26 +78,35 @@ class PlacePickarteController {
       desiredAccuracy: accuracy,
     );
 
-    final cameraUpdate = CameraUpdate.newCameraPosition(
-      CameraPosition(
-        target: LatLng(
+    if (config.mapProvider == MapProvider.googleMap) {
+      final cameraUpdate = CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            position.latitude,
+            position.longitude,
+          ),
+          zoom: zoom,
+          tilt: tilt,
+          bearing: bearing,
+        ),
+      );
+
+      animate
+          ? await _googleMapController?.animateCamera(
+              cameraUpdate,
+            )
+          : await _googleMapController?.moveCamera(
+              cameraUpdate,
+            );
+    } else if (config.mapProvider == MapProvider.mapbox) {
+      mapBoxController!.move(
+        lat_lng2.LatLng(
           position.latitude,
           position.longitude,
         ),
-        zoom: zoom,
-        tilt: tilt,
-        bearing: bearing,
-      ),
-    );
-
-    animate
-        ? await _googleMapController?.animateCamera(
-            cameraUpdate,
-          )
-        : await _googleMapController?.moveCamera(
-            cameraUpdate,
-          );
-
+        zoom,
+      );
+    }
     return MyLocationResult.success;
   }
 
