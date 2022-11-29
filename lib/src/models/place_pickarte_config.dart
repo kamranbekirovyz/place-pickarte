@@ -1,39 +1,42 @@
+import 'package:place_pickarte/src/models/google_map_config.dart';
 import 'package:place_pickarte/src/models/places_autocomplete_config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_pickarte/src/services/google/core.dart';
 import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
 
-const _initialDefaultLocationLatLng = LatLng(
-  23.1311098,
-  -82.3975397,
+final _initialDefaultLocationLatLng = Location(
+  lat: 23.1311098,
+  lng: -82.3975397,
 );
 const _initialCameraZoom = 16.5;
 
 class PlacePickarteConfig {
-  final String? androidApiKey;
-  final String? iosApiKey;
+  final GoogleMapConfig googleMapConfig;
   final PlacesAutocompleteConfig? placesAutocompleteConfig;
   final PinBuilder? pinBuilder;
-  final String? googleMapStyle;
-  final MapType googleMapType;
   final bool myLocationAsInitial;
 
   PlacePickarteConfig({
-    LatLng initialLocation = _initialDefaultLocationLatLng,
+    required this.googleMapConfig,
+    Location? initialLocation,
     double initialZoom = _initialCameraZoom,
-    this.googleMapType = MapType.normal,
     this.pinBuilder,
-    this.googleMapStyle,
-    this.androidApiKey,
-    this.iosApiKey,
     this.myLocationAsInitial = true,
     this.placesAutocompleteConfig,
   }) {
-    _initialCameraPosition = CameraPosition(
-      target: initialLocation,
+    initialLocation ??= _initialDefaultLocationLatLng;
+
+    final target = LatLng(
+      initialLocation.lat,
+      initialLocation.lng,
+    );
+
+    _initialGoogleMapCameraPosition = CameraPosition(
+      target: target,
       zoom: initialZoom,
     );
   }
 
-  late final CameraPosition _initialCameraPosition;
-  CameraPosition get initialCameraPosition => _initialCameraPosition;
+  late final CameraPosition _initialGoogleMapCameraPosition;
+  CameraPosition get initialGoogleMapCameraPosition => _initialGoogleMapCameraPosition;
 }

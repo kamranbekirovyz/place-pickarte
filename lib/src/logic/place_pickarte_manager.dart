@@ -18,10 +18,10 @@ class PlacePickarteManager {
     required this.config,
   }) {
     _googleMapsGeocoding = GoogleMapsGeocoding(
-      apiKey: config.iosApiKey,
+      apiKey: config.googleMapConfig.iosApiKey,
     );
     _googleMapsPlaces = GoogleMapsPlaces(
-      apiKey: config.iosApiKey,
+      apiKey: config.googleMapConfig.iosApiKey,
     );
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
       /// null check before using value (CameraPosition subject is nullable).

@@ -20,8 +20,10 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
 
     _controller = PlacePickarteController(
       config: PlacePickarteConfig(
-        iosApiKey: iosApiKey,
-        androidApiKey: androidApiKey,
+        googleMapConfig: const GoogleMapConfig(
+          iosApiKey: iosApiKey,
+          androidApiKey: androidApiKey,
+        ),
         placesAutocompleteConfig: PlacesAutocompleteConfig(
           region: 'az',
           components: [

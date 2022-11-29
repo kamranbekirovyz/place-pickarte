@@ -42,7 +42,7 @@ class PlacePickarteController {
     double tilt = 0.0,
     double bearing = 0.0,
   }) async {
-    zoom ??= _manager.config.initialCameraPosition.zoom;
+    zoom ??= _manager.config.initialGoogleMapCameraPosition.zoom;
 
     if (!await Geolocator.isLocationServiceEnabled()) {
       return MyLocationResult.serviceNotEnabled;
@@ -96,9 +96,9 @@ class PlacePickarteController {
   void onGoogleMapCreated(GoogleMapController mapController) {
     _googleMapController = mapController;
 
-    if (config.googleMapStyle != null) {
+    if (config.googleMapConfig.googleMapStyle != null) {
       'setting custom map style..'.logiosa();
-      _googleMapController!.setMapStyle(config.googleMapStyle);
+      _googleMapController!.setMapStyle(config.googleMapConfig.googleMapStyle);
     }
 
     if (config.myLocationAsInitial) {
@@ -115,7 +115,7 @@ class PlacePickarteController {
     double bearing = 0.0,
   }) async {
     final placeDetails = await _manager.getPlaceDetails(prediction.placeId!);
-    zoom ??= _manager.config.initialCameraPosition.zoom;
+    zoom ??= _manager.config.initialGoogleMapCameraPosition.zoom;
 
     clearAutocompleteResults();
 
