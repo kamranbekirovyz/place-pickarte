@@ -95,10 +95,16 @@ class PlacePickarteController {
 
   void onGoogleMapCreated(GoogleMapController mapController) {
     _googleMapController = mapController;
+    // TODO: get api keys from outside of the googlemapconfig, since user may
+    // chose another map provider.
+    if (config.mapProvider == MapProvider.googleMap) {
+      if (config.googleMapConfig!.googleMapStyle != null) {
+        'setting custom map style..'.logiosa();
 
-    if (config.googleMapConfig.googleMapStyle != null) {
-      'setting custom map style..'.logiosa();
-      _googleMapController!.setMapStyle(config.googleMapConfig.googleMapStyle);
+        _googleMapController!.setMapStyle(
+          config.googleMapConfig!.googleMapStyle,
+        );
+      }
     }
 
     if (config.myLocationAsInitial) {

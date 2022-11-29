@@ -16,7 +16,7 @@ class PlacePickarteMap extends StatelessWidget {
     return Stack(
       children: [
         StreamBuilder<MapType>(
-          initialData: controller.config.googleMapConfig.googleMapType,
+          initialData: controller.config.googleMapConfig?.googleMapType,
           stream: controller.googleMapTypeStream,
           builder: (context, snapshot) {
             final googleMapType = snapshot.requireData;

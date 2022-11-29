@@ -17,12 +17,14 @@ class PlacePickarteManager {
   PlacePickarteManager({
     required this.config,
   }) {
-    _googleMapsGeocoding = GoogleMapsGeocoding(
-      apiKey: config.googleMapConfig.iosApiKey,
-    );
-    _googleMapsPlaces = GoogleMapsPlaces(
-      apiKey: config.googleMapConfig.iosApiKey,
-    );
+    if (config.mapProvider == MapProvider.googleMap) {
+      _googleMapsGeocoding = GoogleMapsGeocoding(
+        apiKey: config.googleMapConfig!.iosApiKey,
+      );
+      _googleMapsPlaces = GoogleMapsPlaces(
+        apiKey: config.googleMapConfig!.iosApiKey,
+      );
+    }
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
       /// null check before using value (CameraPosition subject is nullable).
       if (cameraPosition == null) return;
