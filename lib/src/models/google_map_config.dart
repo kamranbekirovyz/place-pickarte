@@ -16,10 +16,17 @@ class GoogleMapConfig {
 
   final String? iosApiKey;
 
+  /// True if the map view should show zoom controls. This includes two buttons
+  /// to zoom in and zoom out. The default value is to show zoom controls.
+  ///
+  /// This is only supported on Android. And this field is silently ignored on iOS.
+  final bool zoomControlsEnabled;
+
   const GoogleMapConfig({
     this.googleMapStyle,
     this.googleMapType = MapType.normal,
     this.androidApiKey,
     this.iosApiKey,
+    this.zoomControlsEnabled = false,
   });
 }

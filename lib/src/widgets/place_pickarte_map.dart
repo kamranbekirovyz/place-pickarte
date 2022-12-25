@@ -27,6 +27,7 @@ class PlacePickarteMap extends StatelessWidget {
               final googleMapType = snapshot.requireData;
 
               return GoogleMap(
+                zoomControlsEnabled: controller.config.googleMapConfig?.zoomControlsEnabled ?? false,
                 myLocationButtonEnabled: false,
                 myLocationEnabled: true,
                 mapType: googleMapType,

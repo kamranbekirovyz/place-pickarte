@@ -11,7 +11,7 @@ class PlacePickarteManager {
   // late final GoogleMapsGeocoding _googleMapsGeocoding;
   late final GoogleMapsPlaces _googleMapsPlaces;
   late final StreamSubscription _pinStateSubscription;
-  late final StreamSubscription _searchQuerySubscription;
+  // late final StreamSubscription _searchQuerySubscription;
 
   PlacePickarteManager({
     required this.config,
@@ -85,7 +85,7 @@ class PlacePickarteManager {
     _pinState.close();
     _cameraPosition.close();
     _pinStateSubscription.cancel();
-    _searchQuerySubscription.cancel();
+    // _searchQuerySubscription.cancel();
   }
 
   Future<void> _searchAutocomplete(String query) async {
