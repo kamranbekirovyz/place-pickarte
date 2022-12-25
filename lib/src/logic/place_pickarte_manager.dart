@@ -113,8 +113,10 @@ class PlacePickarteManager {
 
   Future<void> _searchByLocation(Location location) async {
     if (config.googleMapsGeocoding == null) {
-      // TODO: implement exception.
-      throw '';
+      throw '''GoogleMapsGeocoding is not initialized.
+
+Before using search by location functionality, please, initialize 
+GoogleMapsGeocoding while initalizing your PlacePickarteController.''';
     }
 
     _updateCurrentLocation(null);
