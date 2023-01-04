@@ -11,7 +11,7 @@ class PlacePickarteManager {
   // late final GoogleMapsGeocoding _googleMapsGeocoding;
   late final GoogleMapsPlaces _googleMapsPlaces;
   late final StreamSubscription _pinStateSubscription;
-  // late final StreamSubscription _searchQuerySubscription;
+  late final StreamSubscription _searchQuerySubscription;
 
   PlacePickarteManager({
     required this.config,
@@ -20,9 +20,9 @@ class PlacePickarteManager {
       // _googleMapsGeocoding = GoogleMapsGeocoding(
       //   apiKey: config.googleMapConfig!.iosApiKey,
       // );
-      // _googleMapsPlaces = GoogleMapsPlaces(
-      //   apiKey: config.googleMapConfig!.iosApiKey,
-      // );
+      _googleMapsPlaces = GoogleMapsPlaces(
+        apiKey: config.googleMapConfig!.iosApiKey,
+      );
     }
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
       /// null check before using value (CameraPosition subject is nullable).
@@ -40,7 +40,7 @@ class PlacePickarteManager {
     });
 
 // TODO: searchs when controller created.
-    /* _searchQuerySubscription = _searchQuery
+    _searchQuerySubscription = _searchQuery
         .distinct()
         .debounceTime(
           const Duration(milliseconds: 500),
@@ -48,7 +48,6 @@ class PlacePickarteManager {
         .listen((String event) {
       _searchAutocomplete(event);
     });
-   */
   }
 
   final _pinState = BehaviorSubject<PinState>.seeded(PinState.idle);
@@ -85,7 +84,7 @@ class PlacePickarteManager {
     _pinState.close();
     _cameraPosition.close();
     _pinStateSubscription.cancel();
-    // _searchQuerySubscription.cancel();
+    _searchQuerySubscription.cancel();
   }
 
   Future<void> _searchAutocomplete(String query) async {
