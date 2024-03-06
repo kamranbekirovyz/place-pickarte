@@ -1,8 +1,11 @@
 library place_pickarte;
 
+export 'package:place_pickarte/src/models/enums/my_location_result.dart';
+export 'package:place_pickarte/src/services/google/core.dart';
 export 'package:place_pickarte/src/services/google/geocoding.dart';
 export 'package:place_pickarte/src/models/mapbox_config.dart';
-export 'package:google_maps_flutter/google_maps_flutter.dart' show CameraPosition, MapType;
+export 'package:google_maps_flutter/google_maps_flutter.dart'
+    show CameraPosition, MapType;
 export 'package:place_pickarte/src/models/enums/map_provider.dart';
 export 'package:place_pickarte/src/models/google_map_config.dart';
 

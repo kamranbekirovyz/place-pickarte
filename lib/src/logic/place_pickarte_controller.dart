@@ -1,4 +1,4 @@
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/models/enums/my_location_result.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
@@ -26,14 +26,18 @@ class PlacePickarteController {
     _manager = PlacePickarteManager(config: config);
   }
 
-  Stream<CameraPosition?> get cameraPositionStream => _manager.cameraPositionStream;
-  Stream<GeocodingResult?> get currentLocationStream => _manager.currentLocationStream;
-  Stream<List<Prediction>?> get autocompleteResultsStream => _manager.autocompleteResultsStream;
+  Stream<CameraPosition?> get cameraPositionStream =>
+      _manager.cameraPositionStream;
+  Stream<GeocodingResult?> get currentLocationStream =>
+      _manager.currentLocationStream;
+  Stream<List<Prediction>?> get autocompleteResultsStream =>
+      _manager.autocompleteResultsStream;
   Stream<PinState> get pinStateStream => _manager.pinStateStream;
   Stream<MapType> get googleMapTypeStream => _manager.googleMapTypeStream;
   Stream<String> get searchQueryStream => _manager.searchQueryStream;
 
   GeocodingResult? get currentLocation => _manager.currentLocation;
+  CameraPosition? get cameraPosition => _manager.cameraPosition;
 
   void searchAutocomplete(String query) => _manager.searchAutocomplete(query);
   void clearSearchQuery() => _manager.searchAutocomplete('');
@@ -52,14 +56,19 @@ class PlacePickarteController {
   }) async {
     zoom ??= _manager.config.initialGoogleMapCameraPosition.zoom;
 
-    if (!await Geolocator.isLocationServiceEnabled()) {
+    final bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    'isServiceEnabled: $isServiceEnabled'.logiosa();
+
+    if (!isServiceEnabled) {
       return MyLocationResult.serviceNotEnabled;
     }
 
     final permission = await Geolocator.checkPermission();
+    'permission: $permission'.logiosa();
     final hasValidPermission = [
       LocationPermission.whileInUse,
-      LocationPermission.whileInUse,
+      LocationPermission.always,
     ].contains(permission);
 
     if (!hasValidPermission) {

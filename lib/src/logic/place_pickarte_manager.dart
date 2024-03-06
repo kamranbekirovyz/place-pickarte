@@ -61,7 +61,8 @@ class PlacePickarteManager {
   Stream<CameraPosition?> get cameraPositionStream => _cameraPosition.stream;
   Stream<String> get searchQueryStream => _searchQuery.stream;
   Stream<GeocodingResult?> get currentLocationStream => _currentLocation.stream;
-  Stream<List<Prediction>?> get autocompleteResultsStream => _autocompleteResults.stream;
+  Stream<List<Prediction>?> get autocompleteResultsStream =>
+      _autocompleteResults.stream;
   Stream<MapType> get googleMapTypeStream => _googleMapType.stream;
 
   CameraPosition? get cameraPosition => _cameraPosition.valueOrNull;
@@ -72,8 +73,10 @@ class PlacePickarteManager {
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
   void searchAutocomplete(String event) => _searchQuery.add(event);
-  void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
-  void _updateAutocompleteResults(List<Prediction>? event) => _autocompleteResults.add(event);
+  void _updateCurrentLocation(GeocodingResult? event) =>
+      _currentLocation.add(event);
+  void _updateAutocompleteResults(List<Prediction>? event) =>
+      _autocompleteResults.add(event);
   void _updateGoogleMapType(MapType event) => _googleMapType.add(event);
 
   void close() {
@@ -112,10 +115,13 @@ class PlacePickarteManager {
 
   Future<void> _searchByLocation(Location location) async {
     if (config.googleMapsGeocoding == null) {
-      throw '''GoogleMapsGeocoding is not initialized.
+      '''GoogleMapsGeocoding is not initialized.
 
 Before using search by location functionality, please, initialize 
-GoogleMapsGeocoding while initalizing your PlacePickarteController.''';
+GoogleMapsGeocoding while initalizing your PlacePickarteController.'''
+          .logiosa();
+
+      return;
     }
 
     _updateCurrentLocation(null);
@@ -130,7 +136,8 @@ GoogleMapsGeocoding while initalizing your PlacePickarteController.''';
 
   Future<PlaceDetails> getPlaceDetails(String placeId) async {
     // use PlacesDetailsResponse with its error handling
-    final detailsResponse = await _googleMapsPlaces.getDetailsByPlaceId(placeId);
+    final detailsResponse =
+        await _googleMapsPlaces.getDetailsByPlaceId(placeId);
     return detailsResponse.result;
   }
 

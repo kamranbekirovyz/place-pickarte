@@ -27,12 +27,15 @@ class PlacePickarteMap extends StatelessWidget {
               final googleMapType = snapshot.requireData;
 
               return GoogleMap(
-                zoomControlsEnabled: controller.config.googleMapConfig?.zoomControlsEnabled ?? false,
+                zoomControlsEnabled:
+                    controller.config.googleMapConfig?.zoomControlsEnabled ??
+                        false,
                 myLocationButtonEnabled: false,
                 myLocationEnabled: true,
                 mapType: googleMapType,
                 onMapCreated: controller.onGoogleMapCreated,
-                initialCameraPosition: controller.config.initialGoogleMapCameraPosition,
+                initialCameraPosition:
+                    controller.config.initialGoogleMapCameraPosition,
                 onCameraIdle: controller.onCameraIdle,
                 onCameraMove: controller.onCameraMove,
                 onCameraMoveStarted: controller.onCameraMoveStarted,
@@ -54,7 +57,9 @@ class PlacePickarteMap extends StatelessWidget {
           )
         else
           const Text(
-            !kReleaseMode ? 'Some unexpected error happened. Please, open an issue on GitHub repository.' : 'Unable to launch the map.',
+            !kReleaseMode
+                ? 'Some unexpected error happened. Please, open an issue on GitHub repository.'
+                : 'Unable to launch the map.',
           ),
         PlacePickartePin(
           pinBuilder: controller.config.pinBuilder,
@@ -82,7 +87,8 @@ class CachedTileProvider extends flutter_map.TileProvider {
   CachedTileProvider();
 
   @override
-  ImageProvider getImage(flutter_map.Coords<num> coords, flutter_map.TileLayer options) {
-    return CachedNetworkImageProvider(getTileUrl(coords, options));
+  ImageProvider getImage(
+      flutter_map.TileCoordinates coordinates, flutter_map.TileLayer options) {
+    return CachedNetworkImageProvider(getTileUrl(coordinates, options));
   }
 }
