@@ -64,8 +64,10 @@ class PlacePickarteController {
       return MyLocationResult.serviceNotEnabled;
     }
 
-    final permission = await Geolocator.checkPermission();
+    final permission = await Geolocator.requestPermission();
+
     'permission: $permission'.logiosa();
+
     final hasValidPermission = [
       LocationPermission.whileInUse,
       LocationPermission.always,
