@@ -1,6 +1,5 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:place_pickarte/place_pickarte.dart';
-import 'package:place_pickarte/src/models/enums/my_location_result.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
