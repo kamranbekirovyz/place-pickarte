@@ -203,7 +203,20 @@ class PlacePickarteController {
   ///
   /// Must not be called manually.
   void onCameraMove(CameraPosition position) {
-    'camera is moving: $position'.logiosa();
+    'camera is moving: $position, initial: ${config.initialGoogleMapCameraPosition}'
+        .logiosa();
+    // If it is the initial camera position, do not update the camera position.
+
+    if (position.target.latitude.toStringAsFixed(4) ==
+            config.initialGoogleMapCameraPosition.target.latitude
+                .toStringAsFixed(4) &&
+        position.target.longitude.toStringAsFixed(4) ==
+            config.initialGoogleMapCameraPosition.target.longitude
+                .toStringAsFixed(4)) {
+      'initial camera position'.logiosa();
+      return;
+    }
+
     _manager.updateCameraPosition(position);
   }
 

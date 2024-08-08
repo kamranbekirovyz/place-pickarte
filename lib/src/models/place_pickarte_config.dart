@@ -1,6 +1,5 @@
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:place_pickarte/src/services/google/core.dart';
 import 'package:place_pickarte/src/widgets/place_pickarte_pin.dart';
 
 final _initialDefaultLocationLatLng = Location(
