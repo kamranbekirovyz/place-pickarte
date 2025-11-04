@@ -1,40 +1,33 @@
 
 # place_pickarte
 
-Sophisticated, artistic, pixel-by-pixel customizable place picker from with built-in UI components. Supporting GoogleMaps for now, Openstreet and Mapbox on roadmap.
+Pixel-by-pixel customizable map place picker with built-in UI components. 
 
-<img src="#" alt="cover_picture" />
+I'm polishing it for first stable release. Feedback is welcome. Follow my journey on [X/Twitter](https://x.com/kamranbekirovyz).
 
 ## 📐 Features
 
-## 🚀 Motivation
+In progress...
 
-Motivation for creating package/plugin.
+## 🩵 Want to say "thanks"?
+
+If you like this package, consider checking [UserOrient](https://userorient.com), my side project for Flutter apps to collect feedback from users.
+
+<a href="https://userorient.com" target="_blank">
+	<img src="https://www.userorient.com/assets/extras/sponsor.png">
+</a>
 
 ## 🕹️ Usage
 
-To get started..
-
-```dart
-```
+In progress...
 
 See the <a href="https://github.com/kamranbekirovyz/place-pickarte/tree/main/example">example</a> directory for a complete sample app.
 
-## 🤓 Contributors
-
-<a  href="https://github.com/kamranbekirovyz/place-pickarte/graphs/contributors"> <img  src="https://github.com/kamranbekirovyz.png" height="100">
 
 ## 💡 Inspired from/by
 
 - Forked and modified <a href="https://github.com/lejard-h/google_maps_webservice">google_maps_webservice</a> according to this package's needs, specifically for not supporting null-safety.
 
-## 🙏 Credits
-
-Give credits to people/packages/plugins/whomever/whatever was/were an inspiration for this package/plugin.
-
-## 🐞 Bugs/Requests
-
-If you encounter any problems please open an issue. If you feel the library is missing a feature, please raise a ticket on GitHub and we'll look into it. Pull requests are welcome.
 
 ## 📃 License
 

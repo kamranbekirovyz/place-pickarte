@@ -1,3 +1,10 @@
+## 0.3.0
+
+Started polishing for first stable release, expect it soon.
+
+- Updated example app.
+- Upgraded dependencies.
+
 ## 0.2.1
 
 - Now, using details property, city, countryName, streetName, streetNumber and etc. can be get from picked place.
