@@ -14,6 +14,9 @@ class PlacePickarteAutocompleteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
+      elevation: 0,
+      borderRadius: BorderRadius.circular(10),
       child: ListTile(
         onTap: () {
           FocusScope.of(context).unfocus();
