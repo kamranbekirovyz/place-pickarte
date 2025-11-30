@@ -1,3 +1,0 @@
-class MapboxConfig {
-  // TODO: implement
-}

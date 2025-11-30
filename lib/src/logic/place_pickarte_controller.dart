@@ -1,10 +1,8 @@
-import 'package:flutter_map/flutter_map.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 import 'package:place_pickarte/src/helpers/extensions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_pickarte/src/logic/place_pickarte_manager.dart';
-import 'package:latlong2/latlong.dart' as lat_lng2;
 
 // TODO: don't send request when map only zooms in out.
 // TODO: add session token.
@@ -13,15 +11,11 @@ import 'package:latlong2/latlong.dart' as lat_lng2;
 class PlacePickarteController {
   late final PlacePickarteManager _manager;
   late final GoogleMapController? _googleMapController;
-  late final MapController? mapBoxController;
   final PlacePickarteConfig config;
 
   PlacePickarteController({
     required this.config,
   }) {
-    if (config.mapProvider == MapProvider.mapbox) {
-      mapBoxController = MapController();
-    }
     _manager = PlacePickarteManager(config: config);
   }
 
@@ -47,7 +41,6 @@ class PlacePickarteController {
 
   // TODO: move heavy logic to another layer (service)
   Future<MyLocationResult> goToMyLocation({
-    bool animate = true,
     LocationAccuracy accuracy = LocationAccuracy.best,
     double? zoom,
     double tilt = 0.0,
@@ -88,35 +81,20 @@ class PlacePickarteController {
       desiredAccuracy: accuracy,
     );
 
-    if (config.mapProvider == MapProvider.googleMap) {
-      final cameraUpdate = CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(
-            position.latitude,
-            position.longitude,
-          ),
-          zoom: zoom,
-          tilt: tilt,
-          bearing: bearing,
-        ),
-      );
-
-      animate
-          ? await _googleMapController?.animateCamera(
-              cameraUpdate,
-            )
-          : await _googleMapController?.moveCamera(
-              cameraUpdate,
-            );
-    } else if (config.mapProvider == MapProvider.mapbox) {
-      mapBoxController!.move(
-        lat_lng2.LatLng(
+    final cameraUpdate = CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: LatLng(
           position.latitude,
           position.longitude,
         ),
-        zoom,
-      );
-    }
+        zoom: zoom,
+        tilt: tilt,
+        bearing: bearing,
+      ),
+    );
+
+    await _googleMapController?.animateCamera(cameraUpdate);
+
     return MyLocationResult.success;
   }
 
@@ -124,14 +102,13 @@ class PlacePickarteController {
     _googleMapController = mapController;
     // TODO: get api keys from outside of the googlemapconfig, since user may
     // chose another map provider.
-    if (config.mapProvider == MapProvider.googleMap) {
-      if (config.googleMapConfig!.googleMapStyle != null) {
-        'setting custom map style..'.logiosa();
 
-        _googleMapController!.setMapStyle(
-          config.googleMapConfig!.googleMapStyle,
-        );
-      }
+    if (config.googleMapConfig.googleMapStyle != null) {
+      'setting custom map style..'.logiosa();
+
+      _googleMapController!.setMapStyle(
+        config.googleMapConfig.googleMapStyle,
+      );
     }
 
     if (config.myLocationAsInitial) {

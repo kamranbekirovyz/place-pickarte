@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:place_pickarte/src/helpers/extensions.dart';
-import 'package:place_pickarte/src/services/google/core.dart';
 import 'package:place_pickarte/src/services/google/places.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 
 class PlacePickarteManager {
   late final PlacePickarteConfig config;
-  // late final GoogleMapsGeocoding _googleMapsGeocoding;
   late final GoogleMapsPlaces _googleMapsPlaces;
   late final StreamSubscription _pinStateSubscription;
   late final StreamSubscription _searchQuerySubscription;
@@ -16,14 +14,10 @@ class PlacePickarteManager {
   PlacePickarteManager({
     required this.config,
   }) {
-    if (config.mapProvider == MapProvider.googleMap) {
-      // _googleMapsGeocoding = GoogleMapsGeocoding(
-      //   apiKey: config.googleMapConfig!.iosApiKey,
-      // );
-      _googleMapsPlaces = GoogleMapsPlaces(
-        apiKey: config.googleMapConfig!.iosApiKey,
-      );
-    }
+    _googleMapsPlaces = GoogleMapsPlaces(
+      apiKey: config.googleMapConfig.iosApiKey,
+    );
+
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
       /// null check before using value (CameraPosition subject is nullable).
       if (cameraPosition == null) return;
@@ -39,7 +33,7 @@ class PlacePickarteManager {
       }
     });
 
-// TODO: searchs when controller created.
+    // TODO: searchs when controller created.
     _searchQuerySubscription = _searchQuery
         .distinct()
         .debounceTime(
