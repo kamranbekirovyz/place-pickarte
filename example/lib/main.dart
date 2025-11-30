@@ -12,16 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Place Pickarte',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-        ),
-      ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
@@ -118,13 +111,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: ButtonBar(
+      floatingActionButton: Row(
         children: [
           ElevatedButton.icon(
             onPressed: () async {
               final result = await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const CustomizedPlacePicker(),
+                  builder: (_) {
+                    return const CustomizedPlacePicker();
+                  },
                 ),
               );
 

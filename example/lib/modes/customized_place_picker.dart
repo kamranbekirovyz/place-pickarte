@@ -25,9 +25,9 @@ class _CustomizedPlacePickerState extends State<CustomizedPlacePicker> {
           androidApiKey: androidApiKey,
         ),
         placesAutocompleteConfig: PlacesAutocompleteConfig(
-          region: 'az',
+          region: 'us',
           components: [
-            Component(Component.country, 'tr'),
+            Component(Component.country, 'us'),
           ],
         ),
       ),
