@@ -7,13 +7,13 @@ I'm polishing it for first stable 1.0.0 release. Feedback is welcome. Follow my 
 
 ## 📐 Features
 
-🫟 **Pixel-perfect customization**. Your design system, not material.  
-🗺️ **Google Maps built-in**. Mapbox & OpenStreetMap coming soon.  
-🔎 **Search that just works**. Type "pizza", get pizza places. Magic.  
-📱 **Location permissions**. Handled. You don't think about it.  
-🎨 **6 map styles**. Dark, retro, night. Pick your vibe.  
-⚡ **Real-time streams**. Location updates? Instant. No polling nonsense.  
-🚀 **Production ready**. Copy example, ship tomorrow.  
+🎨 **Fully Customizable**: Adapt to any design system  
+🗺️ **Google Maps Integration**: Built-in support with more providers coming  
+🔍 **Places Search**: Autocomplete and location search  
+✨ **Smooth Animations**: Responsive pin interactions  
+🔐 **Permission Handling**: Location access managed automatically  
+🎭 **Multiple Styles**: Six pre-built map themes  
+🚀 **Production Ready**: Complete example included  
 
 ## 📱 Screenshots
 
