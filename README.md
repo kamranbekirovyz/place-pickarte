@@ -27,63 +27,103 @@ Check [UserOrient](https://userorient.com), my side project for Flutter apps to 
 
 ## 🕹️ Usage
 
-See the <a href="https://github.com/kamranbekirovyz/place-pickarte/tree/main/example">example</a> for a complete sample app.
+**Setup first**: We use Google Maps under the hood. Follow [google_maps_flutter setup](https://pub.dev/packages/google_maps_flutter#getting-started) for API keys and native config. We won't duplicate their docs here.
 
-Since the package uses Google Maps under the hood, please check [google_maps_flutter](https://pub.dev/packages/google_maps_flutter#getting-started)'s docs to learn native configurations and API key acquiring process.
+### Just want it working? 
+Copy [`example/lib/pages/place_picker_page.dart`](example/lib/pages/place_picker_page.dart). It's production-ready with search, location display, error handling. Paste, tweak colors, done.
 
-### Sample Usage
+### Want to build custom? Here's everything:
 
-<?code-excerpt "readme_sample.dart (MapSample)"?>
+**PlacePickarteController** - Your main interface
 ```dart
-class MapSample extends StatefulWidget {
-  const MapSample({super.key});
+final controller = PlacePickarteController(config: PlacePickarteConfig(...));
 
-  @override
-  State<MapSample> createState() => MapSampleState();
-}
+// Streams - listen to everything
+controller.currentLocationStream        // Stream<GeocodingResult?> - selected location
+controller.autocompleteResultsStream    // Stream<List<Prediction>?> - search results  
+controller.pinStateStream              // Stream<PinState> - idle/dragging
+controller.cameraPositionStream        // Stream<CameraPosition?> - map camera
+controller.googleMapTypeStream         // Stream<MapType> - normal/satellite/etc
+controller.searchQueryStream           // Stream<String> - current search text
 
-class MapSampleState extends State<MapSample> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static const CameraPosition _kLake = CameraPosition(
-    bearing: 192.8334901395799,
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    tilt: 59.440717697143555,
-    zoom: 19.151926040649414,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('To the lake!'),
-        icon: const Icon(Icons.directions_boat),
-      ),
-    );
-  }
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-  }
-}
-
+// Actions - control everything  
+controller.searchAutocomplete('pizza')           // Search places
+controller.selectAutocompleteItem(prediction)   // Go to search result
+controller.goToMyLocation()                     // Find user location
+controller.setGoogleMapType(MapType.satellite)  // Change map style
+controller.clearSearchQuery()                   // Clear search
+controller.close()                              // Cleanup (call in dispose)
 ```
 
+**PlacePickarteMap** - The map widget
+```dart
+PlacePickarteMap(controller) // Renders map + pin + everything
+```
+
+**PlacePickarteConfig** - Configure everything
+```dart
+PlacePickarteConfig(
+  googleMapConfig: GoogleMapConfig(
+    iosApiKey: 'YOUR_IOS_KEY',
+    androidApiKey: 'YOUR_ANDROID_KEY',
+    googleMapType: MapType.normal,           // .satellite, .hybrid, .terrain
+    googleMapStyle: GoogleMapStyles.dark,    // .night, .retro, .silver, .aubergine, .standard
+    zoomControlsEnabled: false,              // Android zoom buttons
+  ),
+  initialLocation: Location(lat: 40.4093, lng: 49.8671),  // Starting position
+  initialZoom: 16.5,                                       // Starting zoom
+  myLocationAsInitial: true,                               // Start at user location
+  googleMapsGeocoding: GoogleMapsGeocoding(apiKey: 'KEY'), // For address lookup
+  placesAutocompleteConfig: PlacesAutocompleteConfig(
+    region: 'us',                                    // Country bias
+    language: 'en',                                  // Result language  
+    components: [Component(Component.country, 'us')], // Restrict to country
+    types: ['establishment'],                         // Filter place types
+    radius: 50000,                                   // Search radius (meters)
+    strictbounds: false,                             // Enforce radius
+  ),
+  pinBuilder: (context, state) => CustomPin(state),       // Custom pin widget
+)
+```
+
+**PlacePickarteAutocompleteItem** - Search result UI
+```dart
+PlacePickarteAutocompleteItem(
+  prediction: prediction,
+  onTap: (prediction) => controller.selectAutocompleteItem(prediction),
+)
+```
+
+**Custom Pin Builder**
+```dart
+pinBuilder: (context, state) {
+  return AnimatedContainer(
+    duration: Duration(milliseconds: 200),
+    transform: Matrix4.translationValues(0, state == PinState.dragging ? -8 : 0, 0),
+    child: Icon(
+      state == PinState.dragging ? Icons.location_searching : Icons.location_on,
+      size: 72,
+      color: state == PinState.dragging ? Colors.grey : Colors.red,
+    ),
+  );
+}
+```
+
+**Location Permission Results**
+```dart
+final result = await controller.goToMyLocation();
+// Returns MyLocationResult enum:
+// .success, .serviceNotEnabled, .permissionDenied, .permissionDeniedForever, .permissionUnableToDetermine
+```
+
+**Pin States**
+```dart
+// PinState enum: .idle, .dragging
+StreamBuilder<PinState>(
+  stream: controller.pinStateStream,
+  builder: (context, snapshot) => Text(snapshot.data == PinState.dragging ? 'Moving...' : 'Ready'),
+)
+```
 
 ## 💡 Inspired from/by
 
