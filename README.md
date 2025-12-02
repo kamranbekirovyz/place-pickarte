@@ -7,9 +7,13 @@ I'm polishing it for first stable 1.0.0 release. Feedback is welcome. Follow my 
 
 ## 📐 Features
 
-🫟 **Fully Customizable**: adapt to your app's design system  
-🗺️ **Google Maps Support**: Mapbox & Openstreetmap support planned
-🔎 **Places Search & Autocomplete**: users can search and pick places  
+🫟 **Pixel-perfect customization**. Your design system, not material.  
+🗺️ **Google Maps built-in**. Mapbox & OpenStreetMap coming soon.  
+🔎 **Search that just works**. Type "pizza", get pizza places. Magic.  
+📱 **Location permissions**. Handled. You don't think about it.  
+🎨 **6 map styles**. Dark, retro, night. Pick your vibe.  
+⚡ **Real-time streams**. Location updates? Instant. No polling nonsense.  
+🚀 **Production ready**. Copy example, ship tomorrow.  
 
 ## 📱 Screenshots
 
