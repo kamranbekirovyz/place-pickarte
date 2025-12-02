@@ -1,27 +1,25 @@
 
 # place_pickarte
 
-A Flutter plugin that enables you to make pixel-by-pixel customizable map place pickers. It also comes with clean built-in widgets for you to add this to your app in couple of minutes.
+A Flutter plugin that enables you to make pixel-by-pixel customizable map place pickers.
 
 I'm polishing it for first stable 1.0.0 release. Feedback is welcome. Follow my journey on [X/Twitter](https://x.com/kamranbekirovyz).
 
 ## 📐 Features
 
-🫟 **Fully Customizable**: adap to your app's design system  
-🗺️ **Google Maps Support**: adap to your app's design system  
-🖼️ **Built-in Widgets**: add place picker to your app in a minute  
+🫟 **Fully Customizable**: adapt to your app's design system  
+🗺️ **Google Maps Support**: Mapbox & Openstreetmap support planned
 🔎 **Places Search & Autocomplete**: users can search and pick places  
-⏳ **Mapbox & Openstreetmap Support**: coming soon... [Want to help?](https://github.com/kamranbekirovyz/place-pickarte/issues) 
 
 ## 📱 Screenshots
 
-|Console|API Request|Password|
+|Picker|Style|Search|
 |---|---|---|
-|<img width="200" src="https://github.com/kamranbekirovyz/logarte/blob/main/res/s1.png?raw=true"/>|<img width="200" src="https://github.com/kamranbekirovyz/logarte/blob/main/res/s2.png?raw=true"/>|<img width="200" src="https://github.com/kamranbekirovyz/logarte/blob/main/res/s3.png?raw=true"/>
+|<img width="200" src="https://github.com/kamranbekirovyz/place-pickarte/blob/main/res/idle.png?raw=true"/>|<img width="200" src="https://github.com/kamranbekirovyz/place-pickarte/blob/main/res/map-style.png?raw=true"/>|<img width="200" src="https://github.com/kamranbekirovyz/place-pickarte/blob/main/res/searching.png?raw=true"/>
 
 ## 🩵 Want to say "thanks"?
 
-If you like this package, consider checking [UserOrient](https://userorient.com), my side project for Flutter apps to collect feedback from users.
+Check [UserOrient](https://userorient.com), my side project for Flutter apps to collect feedback from users.
 
 <a href="https://userorient.com" target="_blank">
 	<img src="https://www.userorient.com/assets/extras/sponsor.png">
@@ -29,87 +27,9 @@ If you like this package, consider checking [UserOrient](https://userorient.com)
 
 ## 🕹️ Usage
 
-See the <a href="https://github.com/kamranbekirovyz/place-pickarte/tree/main/example">example</a> directory for a complete sample app.
+See the <a href="https://github.com/kamranbekirovyz/place-pickarte/tree/main/example">example</a> for a complete sample app.
 
-### The native side
-
-Since the package uses [google_maps_flutter](https://pub.dev/packages/google_maps_flutter) under the hood, you need to configure Google Maps first:
-
-* Get an API key at <https://cloud.google.com/maps-platform/>.
-
-* Enable Google Map SDK for each platform.
-  * Go to [Google Developers Console](https://console.cloud.google.com/).
-  * Choose the project that you want to enable Google Maps on.
-  * Select the navigation menu and then select "Google Maps".
-  * Select "APIs" under the Google Maps menu.
-  * To enable Google Maps for Android, select "Maps SDK for Android" in the "Additional APIs" section, then select "ENABLE".
-  * To enable Google Maps for iOS, select "Maps SDK for iOS" in the "Additional APIs" section, then select "ENABLE".
-  * To enable Google Maps for Web, enable the "Maps JavaScript API".
-  * Make sure the APIs you enabled are under the "Enabled APIs" section.
-
-For more details, see [Getting started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started).
-
-### Android
-
-1. Specify your API key in the application manifest `android/app/src/main/AndroidManifest.xml`:
-
-   ```xml
-   <manifest ...
-     <application ...
-       <meta-data android:name="com.google.android.geo.API_KEY"
-                  android:value="YOUR KEY HERE"/>
-   ```
-
-### iOS
-
-1. Specify your API key in the application delegate `ios/Runner/AppDelegate.m`:
-
-   ```objectivec
-   #include "AppDelegate.h"
-   #include "GeneratedPluginRegistrant.h"
-   #import "GoogleMaps/GoogleMaps.h"
-
-   @implementation AppDelegate
-
-   - (BOOL)application:(UIApplication *)application
-       didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-     [GMSServices provideAPIKey:@"YOUR KEY HERE"];
-     [GeneratedPluginRegistrant registerWithRegistry:self];
-     return [super application:application didFinishLaunchingWithOptions:launchOptions];
-   }
-   @end
-   ```
-
-   Or in your Swift code, specify your API key
-   in the application delegate `ios/Runner/AppDelegate.swift`:
-
-   ```swift
-   import UIKit
-   import Flutter
-   import GoogleMaps
-
-   @UIApplicationMain
-   @objc class AppDelegate: FlutterAppDelegate {
-     override func application(
-       _ application: UIApplication,
-       didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-     ) -> Bool {
-       GMSServices.provideAPIKey("YOUR KEY HERE")
-       GeneratedPluginRegistrant.register(with: self)
-       return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-     }
-   }
-   ```
-
-### All
-
-You can now add a `GoogleMap` widget to your widget tree.
-
-The map view can be controlled with the `GoogleMapController` that is passed to
-the `GoogleMap`'s `onMapCreated` callback.
-
-The `GoogleMap` widget should be used within a widget with a bounded size. Using it
-in an unbounded widget will cause the application to throw a Flutter exception.
+Since the package uses Google Maps under the hood, please check [google_maps_flutter](https://pub.dev/packages/google_maps_flutter#getting-started)'s docs to learn native configurations and API key acquiring process.
 
 ### Sample Usage
 
