@@ -1,4 +1,4 @@
-import 'package:example/pages/place_picker_page.dart';
+import 'package:example/place_picker_page.dart';
 import 'package:flutter/material.dart';
 import 'package:place_pickarte/place_pickarte.dart';
 

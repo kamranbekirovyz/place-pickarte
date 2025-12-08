@@ -7,7 +7,6 @@ export 'package:google_maps_flutter/google_maps_flutter.dart'
     show CameraPosition, MapType;
 export 'package:place_pickarte/src/models/google_map_config.dart';
 
-export 'package:place_pickarte/src/widgets/place_pickarte_autocomplete_item.dart';
 export 'src/helpers/google_map_styles.dart';
 export 'src/services/google/geocoding.dart' show GeocodingResult;
 export 'src/services/google/places.dart' show Prediction, PlaceDetails;
