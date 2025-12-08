@@ -1,17 +1,14 @@
 
 # place_pickarte
 
-A Flutter plugin that enables you to make pixel-by-pixel customizable map place pickers.
-
-I'm polishing it for first stable 1.0.0 release. Feedback is welcome. Follow my journey on [X/Twitter](https://x.com/kamranbekirovyz).
+A Flutter plugin for making pixel-by-pixel customizable map place pickers.
 
 ## 📐 Features
 
 🎨 **Fully Customizable**: Adapt to any design system  
-🗺️ **Google Maps Integration**: Built-in support with more providers coming  
+🗺️ **Google Maps**: Built-in support with more providers coming  
 🔍 **Places Search**: Autocomplete and location search  
 ✨ **Smooth Animations**: Responsive pin interactions  
-🔐 **Permission Handling**: Location access managed automatically  
 🎭 **Multiple Styles**: Six pre-built map themes  
 🚀 **Production Ready**: Complete example included  
 
@@ -31,7 +28,7 @@ Check [UserOrient](https://userorient.com), my side project for Flutter apps to 
 
 ## 🕹️ Usage
 
-**Setup first**: We use Google Maps under the hood. Follow [google_maps_flutter setup](https://pub.dev/packages/google_maps_flutter#getting-started) for API keys and native config. We won't duplicate their docs here.
+**Setup first**: We use Google Maps under the hood. Follow [google_maps_flutter setup](https://pub.dev/packages/google_maps_flutter#getting-started) for API keys and native config.
 
 ### Complete Place Picker in One File
 Copy [`example/lib/place_picker_page.dart`](example/lib/place_picker_page.dart). You get **everything**:
@@ -42,7 +39,7 @@ Copy [`example/lib/place_picker_page.dart`](example/lib/place_picker_page.dart).
 - ✅ **Continue button** to confirm selection
 - 🎨 **Styled components** ready for your colors
 
-**That's the main point** - we don't give you basic components. We give you a **complete, production-ready place picker** that you can customize to your brand.
+**That's it!**, that's the main point: we give you a **complete, production-ready place picker** that you can customize to your brand. It already has a beautiful and minimal design that can go with any design system, and you can also easily customize it for your own app.
 
 ### API Reference
 
