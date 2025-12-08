@@ -33,72 +33,91 @@ Check [UserOrient](https://userorient.com), my side project for Flutter apps to 
 
 **Setup first**: We use Google Maps under the hood. Follow [google_maps_flutter setup](https://pub.dev/packages/google_maps_flutter#getting-started) for API keys and native config. We won't duplicate their docs here.
 
-### Just want it working? 
-Copy [`example/lib/pages/place_picker_page.dart`](example/lib/pages/place_picker_page.dart). It's production-ready with search, location display, error handling. Paste, tweak colors, done.
+### Complete Place Picker in One File
+Copy [`example/lib/place_picker_page.dart`](example/lib/place_picker_page.dart). You get **everything**:
+- 🔍 **Search bar** with autocomplete overlay
+- 📍 **Animated pin** that responds to map movement  
+- 📱 **My location button** with permission handling
+- 📋 **Bottom sheet** showing selected address
+- ✅ **Continue button** to confirm selection
+- 🎨 **Styled components** ready for your colors
 
-### Want to build custom? Here's everything:
+**That's the main point** - we don't give you basic components. We give you a **complete, production-ready place picker** that you can customize to your brand.
 
-**PlacePickarteController** - Your main interface
+### API Reference
+
+**PlacePickarteConfig** - Start here, configure everything
 ```dart
-final controller = PlacePickarteController(config: PlacePickarteConfig(...));
+PlacePickarteConfig(
+  // Required: Google Maps setup
+  googleMapConfig: GoogleMapConfig(
+    iosApiKey: 'YOUR_IOS_KEY',
+    androidApiKey: 'YOUR_ANDROID_KEY',
+  ),
+  
+  // Optional: Initial map position
+  initialLocation: Location(lat: 40.4093, lng: 49.8671),  // Default: Baku, Azerbaijan
+  initialZoom: 16.5,                                       // Default: 16.5
+  myLocationAsInitial: true,                               // Start at user's location
+  
+  // Optional: Address lookup (needed for bottom sheet address display)
+  googleMapsGeocoding: GoogleMapsGeocoding(apiKey: 'KEY'),
+  
+  // Optional: Customize search behavior
+  placesAutocompleteConfig: PlacesAutocompleteConfig(
+    region: 'az',                                          // Bias results to country
+    components: [Component(Component.country, 'az')],      // Restrict to Azerbaijan
+    language: 'en',                                        // Result language
+    types: ['establishment'],                              // Filter: restaurants, shops, etc
+  ),
+  
+  // Optional: Custom pin design
+  pinBuilder: (context, state) => YourCustomPin(state),
+)
+```
 
-// Streams - listen to everything
-controller.currentLocationStream        // Stream<GeocodingResult?> - selected location
-controller.autocompleteResultsStream    // Stream<List<Prediction>?> - search results  
-controller.pinStateStream              // Stream<PinState> - idle/dragging
-controller.cameraPositionStream        // Stream<CameraPosition?> - map camera
-controller.googleMapTypeStream         // Stream<MapType> - normal/satellite/etc
-controller.searchQueryStream           // Stream<String> - current search text
+**PlacePickarteController** - Create with config, control everything
+```dart
+final controller = PlacePickarteController(config: yourConfig);
 
-// Actions - control everything  
-controller.searchAutocomplete('pizza')           // Search places
-controller.selectAutocompleteItem(prediction)   // Go to search result
-controller.goToMyLocation()                     // Find user location
-controller.setGoogleMapType(MapType.satellite)  // Change map style
-controller.clearSearchQuery()                   // Clear search
-controller.close()                              // Cleanup (call in dispose)
+// Listen to real-time updates
+controller.currentLocationStream        // Selected location with address
+controller.autocompleteResultsStream    // Search results as user types
+controller.pinStateStream              // Pin animation state (idle/dragging)
+
+// Control the picker
+controller.searchAutocomplete('pizza')           // Trigger search
+controller.selectAutocompleteItem(prediction)   // Jump to search result  
+controller.goToMyLocation()                     // Find user's location
+controller.close()                              // Always call in dispose()
 ```
 
 **PlacePickarteMap** - The map widget
 ```dart
-PlacePickarteMap(controller) // Renders map + pin + everything
+PlacePickarteMap(controller) // Full map with pin, animations, everything
 ```
 
-**PlacePickarteConfig** - Configure everything
+**Search Results UI** - Build your autocomplete list
 ```dart
-PlacePickarteConfig(
-  googleMapConfig: GoogleMapConfig(
-    iosApiKey: 'YOUR_IOS_KEY',
-    androidApiKey: 'YOUR_ANDROID_KEY',
-    googleMapType: MapType.normal,           // .satellite, .hybrid, .terrain
-    googleMapStyle: GoogleMapStyles.dark,    // .night, .retro, .silver, .aubergine, .standard
-    zoomControlsEnabled: false,              // Android zoom buttons
-  ),
-  initialLocation: Location(lat: 40.4093, lng: 49.8671),  // Starting position
-  initialZoom: 16.5,                                       // Starting zoom
-  myLocationAsInitial: true,                               // Start at user location
-  googleMapsGeocoding: GoogleMapsGeocoding(apiKey: 'KEY'), // For address lookup
-  placesAutocompleteConfig: PlacesAutocompleteConfig(
-    region: 'us',                                    // Country bias
-    language: 'en',                                  // Result language  
-    components: [Component(Component.country, 'us')], // Restrict to country
-    types: ['establishment'],                         // Filter place types
-    radius: 50000,                                   // Search radius (meters)
-    strictbounds: false,                             // Enforce radius
-  ),
-  pinBuilder: (context, state) => CustomPin(state),       // Custom pin widget
+StreamBuilder<List<Prediction>?>(
+  stream: controller.autocompleteResultsStream,
+  builder: (context, snapshot) {
+    final predictions = snapshot.data ?? [];
+    return ListView.builder(
+      itemCount: predictions.length,
+      itemBuilder: (context, index) => PlacePickarteAutocompleteItem(
+        prediction: predictions[index],
+        onTap: (prediction) {
+          controller.selectAutocompleteItem(prediction); // Jump to location
+          // Clear search, hide overlay, etc.
+        },
+      ),
+    );
+  },
 )
 ```
 
-**PlacePickarteAutocompleteItem** - Search result UI
-```dart
-PlacePickarteAutocompleteItem(
-  prediction: prediction,
-  onTap: (prediction) => controller.selectAutocompleteItem(prediction),
-)
-```
-
-**Custom Pin Builder**
+**Custom Pin Design** - Replace default pin
 ```dart
 pinBuilder: (context, state) {
   return AnimatedContainer(
@@ -113,20 +132,29 @@ pinBuilder: (context, state) {
 }
 ```
 
-**Location Permission Results**
+**Map Styling** - 6 built-in themes
 ```dart
-final result = await controller.goToMyLocation();
-// Returns MyLocationResult enum:
-// .success, .serviceNotEnabled, .permissionDenied, .permissionDeniedForever, .permissionUnableToDetermine
+GoogleMapConfig(
+  googleMapStyle: GoogleMapStyles.dark,    // Dark theme
+  googleMapStyle: GoogleMapStyles.night,   // Night mode  
+  googleMapStyle: GoogleMapStyles.retro,   // Vintage look
+  googleMapStyle: GoogleMapStyles.silver,  // Minimal gray
+  googleMapStyle: GoogleMapStyles.aubergine, // Purple theme
+  // Or null for standard Google Maps style
+)
 ```
 
-**Pin States**
+**Location Permissions** - Handled automatically
 ```dart
-// PinState enum: .idle, .dragging
-StreamBuilder<PinState>(
-  stream: controller.pinStateStream,
-  builder: (context, snapshot) => Text(snapshot.data == PinState.dragging ? 'Moving...' : 'Ready'),
-)
+final result = await controller.goToMyLocation();
+switch (result) {
+  case MyLocationResult.success:
+    // Location found and map moved
+  case MyLocationResult.permissionDenied:
+    // Show permission dialog
+  case MyLocationResult.serviceNotEnabled:
+    // Ask user to enable GPS
+}
 ```
 
 ## 💡 Inspired from/by
