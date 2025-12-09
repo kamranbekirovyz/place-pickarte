@@ -30,8 +30,8 @@ Check [UserOrient](https://userorient.com), my side project for Flutter apps to 
 
 **Setup first**: We use Google Maps under the hood. Follow [google_maps_flutter setup](https://pub.dev/packages/google_maps_flutter#getting-started) for API keys and native config.
 
-### Complete Place Picker in One File
-Copy [`example/lib/place_picker_page.dart`](example/lib/place_picker_page.dart). You get **everything**:
+### Complete Place Picker 
+Copy [example/lib/place_picker_page.dart](example/lib/place_picker_page.dart) which is a complete map place picker implemented using `place_pickarte`'s plugin APIs. You get **everything**:
 - 🔍 **Search bar** with autocomplete overlay
 - 📍 **Animated pin** that responds to map movement  
 - 📱 **My location button** with permission handling
