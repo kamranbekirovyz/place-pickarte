@@ -1,3 +1,7 @@
+## 1.0.2
+
+Fixed broken link in README. The example file link wasn't clickable because I used a relative path instead of the full GitHub URL. Guess the excitement of finally releasing made me rush through the final checks. Links work now.
+
 ## 1.0.1
 
 **FIRST STABLE RELEASE!**
