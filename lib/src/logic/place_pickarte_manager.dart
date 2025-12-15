@@ -16,6 +16,7 @@ class PlacePickarteManager {
   }) {
     _googleMapsPlaces = GoogleMapsPlaces(
       apiKey: config.googleMapConfig.iosApiKey,
+      apiHeaders: config.googleMapsGeocoding?.apiHeaders,
     );
 
     _pinStateSubscription = _pinState.stream.listen((PinState event) {
@@ -55,8 +56,7 @@ class PlacePickarteManager {
   Stream<CameraPosition?> get cameraPositionStream => _cameraPosition.stream;
   Stream<String> get searchQueryStream => _searchQuery.stream;
   Stream<GeocodingResult?> get currentLocationStream => _currentLocation.stream;
-  Stream<List<Prediction>?> get autocompleteResultsStream =>
-      _autocompleteResults.stream;
+  Stream<List<Prediction>?> get autocompleteResultsStream => _autocompleteResults.stream;
   Stream<MapType> get googleMapTypeStream => _googleMapType.stream;
 
   CameraPosition? get cameraPosition => _cameraPosition.valueOrNull;
@@ -67,10 +67,8 @@ class PlacePickarteManager {
   void updatePinState(PinState event) => _pinState.add(event);
   void updateCameraPosition(CameraPosition event) => _cameraPosition.add(event);
   void searchAutocomplete(String event) => _searchQuery.add(event);
-  void _updateCurrentLocation(GeocodingResult? event) =>
-      _currentLocation.add(event);
-  void _updateAutocompleteResults(List<Prediction>? event) =>
-      _autocompleteResults.add(event);
+  void _updateCurrentLocation(GeocodingResult? event) => _currentLocation.add(event);
+  void _updateAutocompleteResults(List<Prediction>? event) => _autocompleteResults.add(event);
   void _updateGoogleMapType(MapType event) => _googleMapType.add(event);
 
   void close() {
@@ -130,8 +128,7 @@ GoogleMapsGeocoding while initalizing your PlacePickarteController.'''
 
   Future<PlaceDetails> getPlaceDetails(String placeId) async {
     // use PlacesDetailsResponse with its error handling
-    final detailsResponse =
-        await _googleMapsPlaces.getDetailsByPlaceId(placeId);
+    final detailsResponse = await _googleMapsPlaces.getDetailsByPlaceId(placeId);
     return detailsResponse.result;
   }
 
